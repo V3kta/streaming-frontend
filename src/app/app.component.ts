@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
+import { MatDialog } from '@angular/material/dialog';
+import { SerienService } from './service/serien.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import { DataSource } from '@angular/cdk/table';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  constructor(public dialog: MatDialog, serienService: SerienService) {}
   dataSource = new MatTableDataSource();
   displayedColumns: string[] = [
     'name',
