@@ -9,8 +9,8 @@ import { Serie } from 'src/app/model/Serie';
 export class SerienService {
   constructor(private http: HttpClient) {}
 
-  refresh(): Observable<Serie[]> {
-    return this.http.get<Serie[]>('http://localhost:8080/get');
+  refresh(userId: number): Observable<Serie[]> {
+    return this.http.get<Serie[]>(`http://localhost:8080/refresh/${userId}`);
   }
 
   save(serienList: Serie[]): void {
