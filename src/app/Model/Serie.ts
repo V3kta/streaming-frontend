@@ -1,5 +1,5 @@
 export class Serie {
-  serie_id: number;
+  id: number;
 
   name: string;
 
