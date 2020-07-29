@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { SerienService } from './service/serien.service';
+import { CreateSerieDialogComponent } from './dialog/create-serie-dialog.component';
 import { User } from './model/User';
-import { DataSource } from '@angular/cdk/table';
 import { Serie } from 'src/app/model/Serie';
 
 @Component({
@@ -11,6 +11,7 @@ import { Serie } from 'src/app/model/Serie';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
+
 export class AppComponent implements OnInit {
   loggedUser: User;
   constructor(public dialog: MatDialog, private serienService: SerienService) {}
@@ -22,6 +23,16 @@ export class AppComponent implements OnInit {
     'zgDatum',
     'beschreibung',
   ];
+
+openDialog(){
+    const dialogRef = this.dialog.open(CreateSerieDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   ngOnInit(): void {
     this.loggedUser = { id: 1, username: 'Luca', password: '1234' };
