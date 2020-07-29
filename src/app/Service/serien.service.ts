@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Serie } from 'src/app/model/Serie';
+import { User } from 'src/app/model/User';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +10,15 @@ import { Serie } from 'src/app/model/Serie';
 export class SerienService {
   constructor(private http: HttpClient) {}
 
-  refresh(userId: number): Observable<Serie[]> {
-    return this.http.get<Serie[]>(`http://localhost:8080/refresh/${userId}`);
+  refreshSerien(id: number): Observable<Serie[]> {
+    return this.http.get<Serie[]>(`http://localhost:8080/refresh/${id}`);
   }
 
-  save(serienList: Serie[]): void {
-    this.http.post<Serie[]>('http://localhost:8080/get', serienList);
+  saveSerien(serienList: Serie[]): void {
+    this.http.post<Serie[]>('http://localhost:8080/save', serienList);
   }
 
-  delete(serie: Serie): void {
-    this.http.post<Serie>('http://localhost:8080/get', serie);
+  deleteSerie(serie: Serie): void {
+    this.http.post<Serie>('http://localhost:8080/delete', serie);
   }
 }
