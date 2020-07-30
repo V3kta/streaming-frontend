@@ -1,11 +1,12 @@
 <button (click)="refreshList(loggedUser.id)">Refresh</button>
 <button mat-raised-button (click)="openDialog()">TEST2</button>
 
-<table>
-  <tr>
-    <thead></thead>
-  </tr>
-  <tr *ngFor="let serie of serienArray">
-    <app-serien-card [serieData]="serie"></app-serien-card>
-  </tr>
-</table>
+User: {{loggedUser.id}}
+
+<div class="container w-80 m-auto">
+  <div class="row" *ngFor="let serie of serienArray">
+    <div class="container">
+      <app-serien-card (click)="refreshSameViewer(serie)" [viewerData]="sameViewerArray" [serieData]="serie"></app-serien-card>
+    </div>
+  </div>
+</div>

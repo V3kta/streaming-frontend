@@ -1,15 +1,10 @@
-<table>
-    <tr>
-        <thead>
-            <th></th>
-            <th>Infos</th>
-        </thead>
-    </tr>
-    <tr>
-        <tbody>
-            <td class="w-20"></td>
-            <td class="w-80">{{serieData.name}} <br>zuletzt gesehene Staffel & Folge: {{serieData.zgStaffel}} / {{serieData.zgFolge}}
-                <br>zuletzt gesehen am {{serieData.zgDatum }}</td>
-        </tbody>
-    </tr>
-</table>
+<div class="row mb-2">
+    <div class="col-2">
+    </div>
+    <div class="col-10">
+
+        {{serieData.name}} <br>zuletzt gesehene Staffel & Folge: {{serieData.zgStaffel}} / {{serieData.zgFolge}}
+        <br>zuletzt gesehen am {{serieData.zgDatum }}
+        <div *ngFor="let sameViewer of viewerData">Viewer: {{sameViewer.username}}</div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Serie } from 'src/app/model/Serie';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-serien-card',
@@ -9,6 +10,7 @@ import { Serie } from 'src/app/model/Serie';
 export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
+  @Input() viewerData: User[];
   constructor() { }
 
   ngOnInit(): void {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { SerienService } from './service/serien.service';
 import { CreateSerieDialogComponent } from './dialog/create-serie-dialog.component';
@@ -15,6 +14,7 @@ export class AppComponent implements OnInit {
   loggedUser: User;
   constructor(public dialog: MatDialog, private serienService: SerienService) {}
   serienArray: Serie[];
+  sameViewerArray: User[];
   displayedColumns: string[] = [
     'name',
     'zgFolge',
@@ -39,8 +39,15 @@ export class AppComponent implements OnInit {
   }
 
   refreshList(userId: number): void {
-    this.serienService.refreshSerien(userId).subscribe((result) => {
+    this.serienService.refreshSerien(this.loggedUser).subscribe((result) => {
       this.serienArray = result;
+      console.log('Result: ' + JSON.stringify(this.serienArray));
+    });
+  }
+
+  refreshSameViewer(serie: Serie): void {
+    this.serienService.refreshSameViewer(serie).subscribe((result) => {
+      this.sameViewerArray = result;
     });
   }
 
