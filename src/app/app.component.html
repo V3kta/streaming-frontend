@@ -1,33 +1,19 @@
-<button (click)="refreshList()">Refresh</button>
-<button mat-raised-button (click)="openDialog()">TEST2</button>
-
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
-
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let serie"> {{serie.name}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="zgFolge">
-    <th mat-header-cell *matHeaderCellDef> zuletzt gesehene Folge </th>
-    <td mat-cell *matCellDef="let serie"> {{serie.zgFolge}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="zgStaffel">
-    <th mat-header-cell *matHeaderCellDef> zuletzt gesehene Staffel </th>
-    <td mat-cell *matCellDef="let serie"> {{serie.zgStaffel}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="zgDatum">
-    <th mat-header-cell *matHeaderCellDef> gesehen am </th>
-    <td mat-cell *matCellDef="let serie"> {{serie.zgDatum}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="beschreibung">
-    <th mat-header-cell *matHeaderCellDef> Beschreibung </th>
-    <td mat-cell *matCellDef="let serie"> {{serie.beschreibung}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<div class="container-fluid">
+  <div class="row">
+    <button mat-raised-button (click)="refreshList(loggedUser.id)">Refresh</button>
+    <button mat-raised-button (click)="openDialog()">TEST2</button>
+    User: {{loggedUser.id}}
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-10">
+      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie)" *ngFor="let serie of serienArray" [serieData]="serie">
+      </app-serien-card>
+    </div>
+    <div class="col-2">
+      <app-same-viewer-card *ngFor="let viewer of sameViewerArray" [viewerData]="viewer">
+      </app-same-viewer-card>
+    </div>
+  </div>
+</div>

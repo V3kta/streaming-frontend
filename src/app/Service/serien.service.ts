@@ -10,8 +10,14 @@ import { User } from 'src/app/model/User';
 export class SerienService {
   constructor(private http: HttpClient) {}
 
-  refreshSerien(id: number): Observable<Serie[]> {
-    return this.http.get<Serie[]>(`http://localhost:8080/refresh/${id}`);
+  refreshSerien(user: User): Observable<Serie[]> {
+    console.log(user);
+    return this.http.post<Serie[]>('http://localhost:8080/serie/refresh', user);
+  }
+
+  refreshSameViewer(serie: Serie): Observable<User[]> {
+    console.log(serie);
+    return this.http.post<User[]>('http://localhost:8080/user/refresh/same', serie);
   }
 
   saveSerien(serienList: Serie[]): void {
