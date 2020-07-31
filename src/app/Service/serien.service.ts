@@ -17,7 +17,7 @@ export class SerienService {
 
   refreshSameViewer(serie: Serie): Observable<User[]> {
     console.log(serie);
-    return this.http.post<User[]>('http://localhost:8080/user/refresh/same', Serie);
+    return this.http.post<User[]>('http://localhost:8080/user/refresh/same', serie);
   }
 
   saveSerien(serienList: Serie[]): void {

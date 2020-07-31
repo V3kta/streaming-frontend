@@ -1,10 +1,5 @@
-<div class="row mb-2">
-    <div class="col-2">
-    </div>
-    <div class="col-10">
-
-        {{serieData.name}} <br>zuletzt gesehene Staffel & Folge: {{serieData.zgStaffel}} / {{serieData.zgFolge}}
-        <br>zuletzt gesehen am {{serieData.zgDatum }}
-        <div *ngFor="let sameViewer of viewerData">Viewer: {{sameViewer.username}}</div>
-    </div>
+<div class="container-fluid mb-2">
+    {{serieData.name}}<br>
+    zuletzt gesehene Staffel & Folge: {{serieData.zgStaffel}} / {{serieData.zgFolge}}<br>
+    zuletzt gesehen am {{serieData.zgDatum }}
 </div>

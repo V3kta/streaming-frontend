@@ -10,7 +10,6 @@ import { User } from 'src/app/model/User';
 export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
-  @Input() viewerData: User[];
   constructor() { }
 
   ngOnInit(): void {
