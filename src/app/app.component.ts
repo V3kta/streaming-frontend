@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { SerienService } from './service/serien.service';
-import { CreateSerieDialogComponent } from './dialog/create-serie-dialog.component';
 import { User } from './model/User';
 import { Serie } from 'src/app/model/Serie';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,12 @@ import { Serie } from 'src/app/model/Serie';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  loggedUser: User;
-  constructor(public dialog: MatDialog, private serienService: SerienService) {}
-  serienArray: Serie[];
+  serienControl = new FormControl();
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
+  loggedUser: User = { id: 1, username: 'Luca', password: '1234' };
+  UserSerien: Serie[];
+  Serien: Serie[];
   sameViewerArray: User[];
   displayedColumns: string[] = [
     'name',
@@ -23,40 +27,78 @@ export class AppComponent implements OnInit {
     'beschreibung',
   ];
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(CreateSerieDialogComponent, {
-      width: '250px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
-  }
+  constructor(private serienService: SerienService) {}
 
   ngOnInit(): void {
-    this.loggedUser = { id: 2, username: 'Supi', password: '1234' };
-    this.refreshList(this.loggedUser.id);
+    this.getAllSerien();
+    this.refreshUserSerienList();
+
+    this.filteredOptions = this.serienControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
   }
 
-  refreshList(userId: number): void {
-    this.serienService.refreshSerien(this.loggedUser).subscribe((result) => {
-      this.serienArray = result;
-      console.log('Result: ' + JSON.stringify(result));
+  // Lädt alle Serien aus der DB
+
+  getAllSerien(): void {
+    this.serienService.loadSerien().subscribe((result) => {
+      this.Serien = result;
+      result.forEach((serie) => {
+        this.options.push(serie.name);
+      });
     });
   }
+
+  // fügt Serie der User Serien DB hinzu
+
+  addSerieToUserList(name: string): void {
+    this.Serien.forEach((serie) => {
+      if (serie.name === name) {
+        this.serienService.saveSerie(serie);
+        this.serienService.refreshUserSerien(this.loggedUser);
+      }
+    });
+  }
+
+  // aktualisiert User Serien Liste
+
+  refreshUserSerienList(): void {
+    this.serienService
+      .refreshUserSerien(this.loggedUser)
+      .subscribe((result) => {
+        this.UserSerien = result;
+        console.log(JSON.stringify(result));
+      });
+  }
+
+  // aktualisiert Liste der User die Serie auch gesehen haben
 
   refreshSameViewer(serie: Serie): void {
     this.serienService.refreshSameViewer(serie).subscribe((result) => {
-      console.log('Result: ' + JSON.stringify(result));
       this.sameViewerArray = result;
     });
   }
 
-  saveList(): void {
-    this.serienService.saveSerien(this.serienArray);
+  // speichert Serie in die Datenbank ab
+
+  saveSerieToDb(serie: Serie): void {
+    this.serienService.saveSerie(serie);
   }
 
-  deleteListElement(serie: Serie): void {
+  // löscht Serie aus der Datenbank
+
+  deleteSerieFromUserList(serie: Serie): void {
     this.serienService.deleteSerie(serie);
+  }
+
+  // Filtermethode für das Suchfeld
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 }

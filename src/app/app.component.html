@@ -1,14 +1,25 @@
 <div class="container-fluid">
   <div class="row">
-    <button mat-raised-button (click)="refreshList(loggedUser.id)">Refresh</button>
-    <button mat-raised-button (click)="openDialog()">TEST2</button>
+    <form>
+      <mat-form-field>
+        <input matInput type="text" [formControl]="serienControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option (click)="addSerieToUserList(option)" *ngFor="let option of filteredOptions | async"
+            [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
     User: {{loggedUser.id}}
   </div>
 </div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-10">
-      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie)" *ngFor="let serie of serienArray" [serieData]="serie">
+      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie)" *ngFor="let serie of UserSerien"
+        [serieData]="serie">
       </app-serien-card>
     </div>
     <div class="col-2">
