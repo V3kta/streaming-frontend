@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SerienService } from './service/serien.service';
 import { User } from './model/User';
-import { Serie } from 'src/app/model/Serie';
+import { Serie } from './model/Serie';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -15,17 +15,16 @@ export class AppComponent implements OnInit {
   serienControl = new FormControl();
   options: string[] = [];
   filteredOptions: Observable<string[]>;
-  loggedUser: User = { id: 1, username: 'Luca', password: '1234' };
-  UserSerien: Serie[];
-  Serien: Serie[];
+  loggedUser: User = {
+    id: 1,
+    username: 'bummse_biene',
+    vorname: 'Thorsten',
+    nachname: 'Bumms',
+    password: '12345',
+  };
+  userSerien: Serie[];
+  serien: Serie[];
   sameViewerArray: User[];
-  displayedColumns: string[] = [
-    'name',
-    'zgFolge',
-    'zgStaffel',
-    'zgDatum',
-    'beschreibung',
-  ];
 
   constructor(private serienService: SerienService) {}
 
@@ -42,22 +41,11 @@ export class AppComponent implements OnInit {
   // Lädt alle Serien aus der DB
 
   getAllSerien(): void {
-    this.serienService.loadSerien().subscribe((result) => {
-      this.Serien = result;
+    this.serienService.refreshAllSerien().subscribe((result) => {
+      this.serien = result;
       result.forEach((serie) => {
         this.options.push(serie.name);
       });
-    });
-  }
-
-  // fügt Serie der User Serien DB hinzu
-
-  addSerieToUserList(name: string): void {
-    this.Serien.forEach((serie) => {
-      if (serie.name === name) {
-        this.serienService.saveSerie(serie);
-        this.serienService.refreshUserSerien(this.loggedUser);
-      }
     });
   }
 
@@ -65,31 +53,40 @@ export class AppComponent implements OnInit {
 
   refreshUserSerienList(): void {
     this.serienService
-      .refreshUserSerien(this.loggedUser)
+      .refreshUserSerien(this.loggedUser.id)
       .subscribe((result) => {
-        this.UserSerien = result;
-        console.log(JSON.stringify(result));
+        this.userSerien = result;
       });
   }
 
   // aktualisiert Liste der User die Serie auch gesehen haben
 
-  refreshSameViewer(serie: Serie): void {
-    this.serienService.refreshSameViewer(serie).subscribe((result) => {
+  refreshSameViewer(serieId: number): void {
+    this.serienService.refreshSameViewer(serieId).subscribe((result) => {
       this.sameViewerArray = result;
     });
   }
 
-  // speichert Serie in die Datenbank ab
+  // fügt Serie der User Serien DB hinzu
 
-  saveSerieToDb(serie: Serie): void {
-    this.serienService.saveSerie(serie);
+  addSerieToUserList(name: string): void {
+    this.serien.forEach((serie) => {
+      if (serie.name === name) {
+        this.serienService
+          .saveUserSerie(this.loggedUser.id, serie.id)
+          .subscribe((result) => {
+            console.log(result);
+          });
+        this.refreshUserSerienList();
+      }
+    });
   }
 
-  // löscht Serie aus der Datenbank
-
-  deleteSerieFromUserList(serie: Serie): void {
-    this.serienService.deleteSerie(serie);
+  deleteUserSerie(event): void {
+    this.serienService
+      .deleteUserSerie(event.uId, event.sId)
+      .subscribe((result) => console.log(result));
+    this.refreshUserSerienList();
   }
 
   // Filtermethode für das Suchfeld

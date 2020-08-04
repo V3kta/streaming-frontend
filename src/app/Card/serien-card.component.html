@@ -1,5 +1,4 @@
 <div class="container-fluid mb-2">
-    {{serieData.name}}<br>
-    zuletzt gesehene Staffel & Folge: {{serieData.zgStaffel}} / {{serieData.zgFolge}}<br>
-    zuletzt gesehen am {{serieData.zgDatum }}
+    {{serieData.name}}
+    <button mat-raised-button (click)="deleteSerie()">Delete</button>
 </div>

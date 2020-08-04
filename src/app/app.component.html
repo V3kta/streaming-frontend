@@ -18,8 +18,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-10">
-      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie)" *ngFor="let serie of UserSerien"
-        [serieData]="serie">
+      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie.id)" *ngFor="let serie of userSerien"
+        [serieData]="serie" [userData]="loggedUser" (refreshList)="deleteUserSerie($event)">
       </app-serien-card>
     </div>
     <div class="col-2">
