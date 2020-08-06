@@ -7,15 +7,26 @@ import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SerienCardComponent } from './Card/serien-card.component';
 import { SameViewerCardComponent } from './Card/same-viewer-card.component';
+import { LoginComponent } from './login/login.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, SerienCardComponent, SameViewerCardComponent],
+  declarations: [
+    AppComponent,
+    SerienCardComponent,
+    SameViewerCardComponent,
+    LoginComponent,
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    AppRoutingModule,
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent],
 })
