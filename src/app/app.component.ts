@@ -76,17 +76,21 @@ export class AppComponent implements OnInit {
           .saveUserSerie(this.loggedUser.id, serie.id)
           .subscribe((result) => {
             console.log(result);
+            this.refreshUserSerienList();
+            return;
           });
-        this.refreshUserSerienList();
       }
     });
+    this.serienControl.setValue('');
   }
 
-  deleteUserSerie(event): void {
+  deleteUserSerie(event: number): void {
     this.serienService
-      .deleteUserSerie(event.uId, event.sId)
-      .subscribe((result) => console.log(result));
-    this.refreshUserSerienList();
+      .deleteUserSerie(this.loggedUser.id, event)
+      .subscribe((result) => {
+        console.log(result);
+        this.refreshUserSerienList();
+      });
   }
 
   // Filtermethode für das Suchfeld

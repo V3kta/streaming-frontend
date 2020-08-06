@@ -11,7 +11,6 @@ import { SerienService } from 'src/app/service/serien.service';
 export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
-  @Input() userData: User;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
 
   ngOnInit(): void {
@@ -20,7 +19,7 @@ export class SerienCardComponent implements OnInit {
   // löscht Serie aus der Datenbank
 
   deleteSerie(): void {
-    this.refreshList.emit({uId: this.userData.id, sId: this.serieData.id});
+    this.refreshList.emit(this.serieData.id);
   }
 
 }
