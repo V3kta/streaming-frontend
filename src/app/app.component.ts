@@ -11,4 +11,9 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private authService: AuthenticationService) {}
 
   ngOnInit(): void {}
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigateByUrl('login');
+  }
 }

@@ -34,6 +34,10 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.authService
       .validateLogin(this.usernameControl.value, this.passwordControl.value)
-      .subscribe((data) => {});
+      .subscribe((user) => {
+        if (user === this.authService.currentUserValue) {
+          this.router.navigate(['home']);
+        }
+      });
   }
 }
