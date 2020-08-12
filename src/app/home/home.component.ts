@@ -7,6 +7,7 @@ import { Serie } from 'src/app/model/Serie';
 import { SerienService } from 'src/app/service/serien.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  faSearch = faSearch;
   serienControl = new FormControl();
   options: string[] = [];
   filteredOptions: Observable<string[]>;

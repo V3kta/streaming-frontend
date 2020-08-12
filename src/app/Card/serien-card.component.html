@@ -1,4 +1,15 @@
-<div class="container-fluid mb-2">
-    {{serieData.name}}
-    <button mat-raised-button (click)="deleteSerie()">Delete</button>
-</div>
+<mat-card class="mb-2">
+    <div class="container-fluid d-flex flex-row">
+        <img [src]=serieData.bildPfad>
+        <div class="d-flex flex-column ml-5">
+            <span class="font-weight-bold">
+                {{serieData.name}}
+                <button mat-icon-button (click)="deleteSerie()" color="warn">
+                    <fa-icon class="font-24" [icon]="faTrash"></fa-icon>
+                </button>
+            </span>
+            {{serieData.beschreibung}}
+        </div>
+
+    </div>
+</mat-card>

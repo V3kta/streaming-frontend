@@ -4,4 +4,6 @@ export class Serie {
   name: string;
 
   beschreibung: string;
+
+  bildPfad: string;
 }

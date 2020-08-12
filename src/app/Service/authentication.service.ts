@@ -29,6 +29,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+
   validateLogin(uName: string, uPw: string): Observable<User> {
     return this.http
       .post<UserToken>('http://localhost:8080/user/login', {
@@ -38,11 +39,13 @@ export class AuthenticationService {
       .pipe(
         map((userToken) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          const user = userToken.user;
-          user.token = userToken.token;
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          return user;
+          if (userToken) {
+            const user = userToken.user;
+            user.token = userToken.token;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            return user;
+          }
         })
       );
   }

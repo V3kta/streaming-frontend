@@ -8,9 +8,11 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router, private authService: AuthenticationService) {}
+  constructor(private router: Router, public authService: AuthenticationService) {}
+  
+  ngOnInit(): void {
 
-  ngOnInit(): void {}
+  }
 
   logout(): void {
     this.authService.logout();
