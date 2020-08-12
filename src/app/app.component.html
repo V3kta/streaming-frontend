@@ -1,4 +1,4 @@
-<div class="container-fluid d-flex p-1" *ngIf="this.authService.currentUserValue">
+<div class="container-fluid d-flex align-items-center p-1" *ngIf="this.authService.currentUserValue">
     <button mat-raised-button class="m-2" (click)="logout()" color="primary">Logout</button>
         <span class="m-2"> Willkommen {{ this.authService.currentUserValue.username }}! </span>
     </div>
