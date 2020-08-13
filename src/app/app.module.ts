@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return JSON.parse(localStorage.getItem('currentUser')).token;
+        },
+        allowedDomains: ['localhost:8080'],
+      },
+    }),
   ],
   exports: [],
   providers: [],

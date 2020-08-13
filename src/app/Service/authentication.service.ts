@@ -30,18 +30,17 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
-  validateLogin(uName: string, uPw: string): Observable<User> {
+  login(uName: string, uPw: string): Observable<User> {
     return this.http
-      .post<UserToken>('http://localhost:8080/user/login', {
+      .post<User>('http://localhost:8080/user/login', {
         username: uName,
         password: uPw,
       })
       .pipe(
-        map((userToken) => {
+        map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          if (userToken) {
-            const user = userToken.user;
-            user.token = userToken.token;
+          if (user) {
+            console.log(user);
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
             return user;
