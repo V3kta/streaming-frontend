@@ -12,6 +12,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
+  @Input() viewerData: User;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
   faTrash = faTrash;
 

@@ -17,14 +17,10 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-10">
+    <div class="col-12">
       <app-serien-card class="serie-card" (click)="refreshSameViewer(serie.id)"
-        *ngFor="let serie of userSerien; let i = index;" [serieData]="serie" (refreshList)="deleteUserSerie($event)">
+        *ngFor="let serie of userSerien; let viewer of sameViewerArray; let i = index;" [serieData]="serie" [viewerData]="viewer" (refreshList)="deleteUserSerie($event)">
       </app-serien-card>
-    </div>
-    <div class="col-2">
-      <app-same-viewer-card *ngFor="let viewer of sameViewerArray" [viewerData]="viewer">
-      </app-same-viewer-card>
     </div>
   </div>
 </div>

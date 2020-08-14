@@ -9,7 +9,10 @@
                 </button>
             </span>
             {{serieData.beschreibung}}
+            <span> zuletzt gesehen am: <b>{{serieData.zgDatum}}</b> </span>
+            <span> gesehene Folge: <b>{{serieData.zgFolge}}</b> </span>
+            <span> in Staffel: <b>{{serieData.zgStaffel}}</b> </span>
         </div>
-
     </div>
+    <span *ngIf="viewerData.username"> {{viewerData.username}}</span>
 </mat-card>
