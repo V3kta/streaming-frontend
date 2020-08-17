@@ -7,9 +7,9 @@ export class Serie {
 
   bildPfad: string;
 
-  zgDatum: string;
+  zgDatum?: string;
 
-  zgFolge: number;
+  zgFolge?: number;
 
-  zgStaffel: number;
+  zgStaffel?: number;
 }
