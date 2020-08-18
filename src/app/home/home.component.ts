@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   serienControl = new FormControl();
   options: Serie[] = [];
   filteredOptions: Observable<Serie[]>;
+
   userSerien: Serie[];
   sameViewerArray: User[];
 
@@ -57,14 +58,6 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  // aktualisiert Liste der User die Serie auch gesehen haben
-
-  refreshSameViewer(serieId: number): void {
-    this.serienService.refreshSameViewer(serieId).subscribe((result) => {
-      this.sameViewerArray = result;
-    });
-  }
-
   // fügt Serie der User Serien DB hinzu
 
   addSerieToUserList(serie: Serie): void {
@@ -74,6 +67,7 @@ export class HomeComponent implements OnInit {
         this.refreshUserSerienList();
         return;
       });
+
     this.serienControl.setValue('');
   }
 

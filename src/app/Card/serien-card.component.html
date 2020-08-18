@@ -1,4 +1,4 @@
-<mat-card class="mb-2">
+<mat-card (click)="refreshSameViewer()" class="mb-2">
     <div class="container-fluid d-flex flex-row">
         <img [src]=serieData.bildPfad>
         <div class="d-flex flex-column ml-5">
@@ -7,9 +7,17 @@
                 <button mat-icon-button (click)="deleteSerie()" color="warn">
                     <fa-icon class="font-24" [icon]="faTrash"></fa-icon>
                 </button>
+                <button mat-icon-button (click)="editSerie()">
+                    <fa-icon class="font-24" [icon]="faPen"></fa-icon>
+                </button>
             </span>
             {{serieData.beschreibung}}
+            <span> zuletzt gesehen am: <b>{{serieData.zgDatum}}</b> </span>
+            <span> gesehene Folge: <b>{{serieData.zgFolge}}</b> </span>
+            <span> in Staffel: <b>{{serieData.zgStaffel}}</b> </span>
         </div>
-
+        <div class="d-flex flex-column" *ngFor="let sameViewer of sameViewerList">
+            <span>{{sameViewer.username}}</span>
+        </div>
     </div>
 </mat-card>

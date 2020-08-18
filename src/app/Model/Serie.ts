@@ -6,4 +6,10 @@ export class Serie {
   beschreibung: string;
 
   bildPfad: string;
+
+  zgDatum?: string;
+
+  zgFolge?: number;
+
+  zgStaffel?: number;
 }

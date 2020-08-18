@@ -4,7 +4,7 @@
 </div>
 
 <div class="container-fluid d-flex flex-baseline align-items-center">
-    <fa-icon class="mr-2" [icon]="faSearch"></fa-icon>
+  <fa-icon class="mr-2" [icon]="faSearch"></fa-icon>
   <mat-form-field>
     <input matInput type="search" placeholder="Seriensuche" [formControl]="serienControl" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
@@ -18,8 +18,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <app-serien-card class="serie-card" (click)="refreshSameViewer(serie.id)"
-        *ngFor="let serie of userSerien; let i = index;" [serieData]="serie" (refreshList)="deleteUserSerie($event)">
+      <app-serien-card class="serie-card" *ngFor="let serie of userSerien; let i = index;" [serieData]="serie" [viewerData]="userList"
+        (refreshList)="deleteUserSerie($event)">
       </app-serien-card>
     </div>
   </div>
