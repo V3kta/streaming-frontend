@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private serienService: SerienService,
-    private router: Router,
     private authService: AuthenticationService
   ) {}
 
@@ -76,7 +75,7 @@ export class HomeComponent implements OnInit {
       if (serie.name === name) {
         this.serienService
           .saveUserSerie(this.authService.currentUserValue.id, serie.id)
-          .subscribe((result) => {
+          .subscribe(() => {
             this.refreshUserSerienList();
             return;
           });

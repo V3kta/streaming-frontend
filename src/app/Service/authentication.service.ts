@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/model/User';
-import { UserToken } from 'src/app/model/UserToken';
-import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 
 @Injectable({
