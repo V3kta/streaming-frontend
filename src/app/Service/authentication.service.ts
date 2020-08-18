@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/model/User';
-import { UserToken } from 'src/app/model/UserToken';
-import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -26,22 +24,20 @@ export class AuthenticationService {
 
   logout(): void {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+    localStorage.clear();
     this.currentUserSubject.next(null);
   }
 
-  validateLogin(uName: string, uPw: string): Observable<User> {
+  login(uName: string, uPw: string): Observable<User> {
     return this.http
-      .post<UserToken>('http://localhost:8080/user/login', {
+      .post<User>('http://localhost:8080/user/login', {
         username: uName,
         password: uPw,
       })
       .pipe(
-        map((userToken) => {
+        map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          if (userToken) {
-            const user = userToken.user;
-            user.token = userToken.token;
+          if (user) {
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
             return user;
