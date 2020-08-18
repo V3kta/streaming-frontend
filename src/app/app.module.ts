@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SameViewerCardComponent,
     LoginComponent,
     HomeComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MaterialModule,
     HttpClientModule,
     AppRoutingModule,
-    FontAwesomeModule,
+    FontAwesomeModule
   ],
   exports: [],
   providers: [],

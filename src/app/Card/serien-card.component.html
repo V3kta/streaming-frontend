@@ -7,6 +7,9 @@
                 <button mat-icon-button (click)="deleteSerie()" color="warn">
                     <fa-icon class="font-24" [icon]="faTrash"></fa-icon>
                 </button>
+                <button mat-icon-button (click)="editSerie()">
+                    <fa-icon class="font-24" [icon]="faPen"></fa-icon>
+                </button>
             </span>
             {{serieData.beschreibung}}
             <span> zuletzt gesehen am: <b>{{serieData.zgDatum}}</b> </span>

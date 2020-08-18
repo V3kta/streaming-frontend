@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Daten veränderung</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+  <mat-label>Zuletzt gesehen Am:</mat-label>
+  <input matInput [formControl]="datumControl">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Zuletzt gesehen Staffel:</mat-label>
+    <input matInput [formControl]="folgeControl">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Zuletzt gesehen Folge:</mat-label>
+      <input matInput [formControl]="staffelControl">
+      </mat-form-field>
+  <button mat-button (click)="cancelChanges()">Abbrechen</button>
+  <button mat-button (click)="saveChanges()">Speichern</button>
+</div>
