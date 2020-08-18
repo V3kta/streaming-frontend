@@ -5,7 +5,6 @@ import { startWith, map } from 'rxjs/operators';
 import { User } from 'src/app/model/User';
 import { Serie } from 'src/app/model/Serie';
 import { SerienService } from 'src/app/service/serien.service';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,11 +16,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export class HomeComponent implements OnInit {
   faSearch = faSearch;
   serienControl = new FormControl();
-  options: string[] = [];
-  filteredOptions: Observable<string[]>;
-  loggedUser: User;
+  options: Serie[] = [];
+  filteredOptions: Observable<Serie[]>;
   userSerien: Serie[];
-  serien: Serie[];
   sameViewerArray: User[];
 
   constructor(
@@ -35,7 +32,8 @@ export class HomeComponent implements OnInit {
 
     this.filteredOptions = this.serienControl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value))
+      map((value) => (typeof value === 'string' ? value : value.name)),
+      map((name) => (name ? this._filter(name) : this.options.slice()))
     );
   }
 
@@ -43,9 +41,8 @@ export class HomeComponent implements OnInit {
 
   getAllSerien(): void {
     this.serienService.refreshAllSerien().subscribe((result) => {
-      this.serien = result;
       result.forEach((serie) => {
-        this.options.push(serie.name);
+        this.options.push(serie);
       });
     });
   }
@@ -70,17 +67,13 @@ export class HomeComponent implements OnInit {
 
   // fügt Serie der User Serien DB hinzu
 
-  addSerieToUserList(name: string): void {
-    this.serien.forEach((serie) => {
-      if (serie.name === name) {
-        this.serienService
-          .saveUserSerie(this.authService.currentUserValue.id, serie.id)
-          .subscribe(() => {
-            this.refreshUserSerienList();
-            return;
-          });
-      }
-    });
+  addSerieToUserList(serie: Serie): void {
+    this.serienService
+      .saveUserSerie(this.authService.currentUserValue.id, serie.id)
+      .subscribe(() => {
+        this.refreshUserSerienList();
+        return;
+      });
     this.serienControl.setValue('');
   }
 
@@ -94,11 +87,11 @@ export class HomeComponent implements OnInit {
 
   // Filtermethode für das Suchfeld
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(name: string): Serie[] {
+    const filterValue = name.toLowerCase();
 
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
+    return this.options.filter(
+      (option) => option.name.toLowerCase().indexOf(filterValue) === 0
     );
   }
 }
