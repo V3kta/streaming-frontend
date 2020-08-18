@@ -33,6 +33,25 @@ export class SerienService {
     });
   }
 
+  saveEditedUserSerie(
+    uId: number,
+    sId: number,
+    datum: string,
+    folge: number,
+    staffel: number
+  ): Observable<string> {
+    return this.http.post<string>(
+      'http://localhost:8080/serie/user/save/edited',
+      {
+        userId: uId,
+        serieId: sId,
+        zgDatum: datum,
+        zgFolge: folge,
+        zgStaffel: staffel,
+      }
+    );
+  }
+
   deleteUserSerie(uId: number, sId: number): Observable<string> {
     return this.http.post<string>('http://localhost:8080/serie/user/delete', {
       userId: uId,
