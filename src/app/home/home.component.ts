@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loggedUser = this.authService.currentUserValue;
     this.getAllSerien();
     this.refreshUserSerienList();
 
@@ -56,7 +55,7 @@ export class HomeComponent implements OnInit {
 
   refreshUserSerienList(): void {
     this.serienService
-      .refreshUserSerien(this.loggedUser.id)
+      .refreshUserSerien(this.authService.currentUserValue.id)
       .subscribe((result) => {
         this.userSerien = result;
       });
@@ -76,9 +75,8 @@ export class HomeComponent implements OnInit {
     this.serien.forEach((serie) => {
       if (serie.name === name) {
         this.serienService
-          .saveUserSerie(this.loggedUser.id, serie.id)
+          .saveUserSerie(this.authService.currentUserValue.id, serie.id)
           .subscribe((result) => {
-            console.log(result);
             this.refreshUserSerienList();
             return;
           });
@@ -89,9 +87,8 @@ export class HomeComponent implements OnInit {
 
   deleteUserSerie(event: number): void {
     this.serienService
-      .deleteUserSerie(this.loggedUser.id, event)
+      .deleteUserSerie(this.authService.currentUserValue.id, event)
       .subscribe((result) => {
-        console.log(result);
         this.refreshUserSerienList();
       });
   }
