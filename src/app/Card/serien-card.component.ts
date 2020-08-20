@@ -61,13 +61,15 @@ export class SerienCardComponent implements OnInit {
         this.serieData.zgStaffel = data.zgStaffel;
 
         this.serienService
-          .saveEditedUserSerie(
-            this.authService.currentUserValue.id,
-            this.serieData.id,
-            this.serieData.zgDatum,
-            this.serieData.zgFolge,
-            this.serieData.zgStaffel
-          )
+          .saveUserSerie(this.authService.currentUserValue, {
+            id: this.serieData.id,
+            name: this.serieData.name,
+            beschreibung: this.serieData.beschreibung,
+            bildPfad: this.serieData.bildPfad,
+            zgDatum: this.serieData.zgDatum,
+            zgFolge: this.serieData.zgFolge,
+            zgStaffel: this.serieData.zgStaffel,
+          })
           .subscribe((result) => {
             console.log(result);
           });
