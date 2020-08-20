@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,8 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+  faSignOutAlt = faSignOutAlt;
   constructor(private router: Router, public authService: AuthenticationService) {}
 
   ngOnInit(): void {
