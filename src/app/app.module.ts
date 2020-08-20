@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     LoginComponent,
     HomeComponent,
     EditDialogComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

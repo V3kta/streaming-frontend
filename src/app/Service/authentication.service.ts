@@ -45,4 +45,18 @@ export class AuthenticationService {
         })
       );
   }
+
+  registerUser(
+    uName: string,
+    uPass: string,
+    uVorname: string,
+    uNachname: string
+  ): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/user/register', {
+      username: uName,
+      password: uPass,
+      vorname: uVorname,
+      nachname: uNachname,
+    });
+  }
 }
