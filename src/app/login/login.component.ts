@@ -40,4 +40,10 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+
+  registerActivation(): void {
+    this.router.navigate(['register']);
+  }
+
+
 }

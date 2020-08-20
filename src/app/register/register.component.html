@@ -7,8 +7,13 @@
             <mat-form-field>
                 <input matInput type="password" placeholder="Passwort" [formControl]="passwordControl">
             </mat-form-field>
-            <button type="submit" mat-raised-button color="primary" (click)="login()">Login</button>
-            <button class="mt-1" mat-raised-button color="accent" (click)="registerActivation()">Registrieren</button>
+            <mat-form-field>
+                <input matInput placeholder="Vorname" [formControl]="vornameControl">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Nachname" [formControl]="nachnameControl">
+            </mat-form-field>
+            <button type="submit" mat-raised-button color="primary" (click)="register()">Abschicken</button>
         </div>
     </form>
 </div>
