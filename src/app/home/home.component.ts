@@ -62,8 +62,17 @@ export class HomeComponent implements OnInit {
 
   addSerieToUserList(serie: Serie): void {
     this.serienService
-      .saveUserSerie(this.authService.currentUserValue.id, serie.id)
+      .saveUserSerie(this.authService.currentUserValue, {
+        id: serie.id,
+        name: serie.name,
+        beschreibung: serie.beschreibung,
+        bildPfad: serie.bildPfad,
+        zgDatum: null,
+        zgFolge: 0,
+        zgStaffel: 0,
+      })
       .subscribe(() => {
+        console.log(serie);
         this.refreshUserSerienList();
         return;
       });

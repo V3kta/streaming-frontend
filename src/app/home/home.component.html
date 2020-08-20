@@ -18,7 +18,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <app-serien-card class="serie-card" *ngFor="let serie of userSerien; let i = index;" [serieData]="serie" [viewerData]="userList"
+      <app-serien-card class="serie-card" *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
         (refreshList)="deleteUserSerie($event)">
       </app-serien-card>
     </div>

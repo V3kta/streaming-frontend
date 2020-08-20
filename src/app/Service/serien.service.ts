@@ -26,10 +26,10 @@ export class SerienService {
     );
   }
 
-  saveUserSerie(uId: number, sId: number): Observable<string> {
+  saveUserSerie(u: User, s: Serie): Observable<string> {
     return this.http.post<string>('http://localhost:8080/serie/user/save', {
-      userId: uId,
-      serieId: sId,
+      userDto: u,
+      serieDto: s,
     });
   }
 

@@ -12,14 +12,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     SerienCardComponent,
     LoginComponent,
     HomeComponent,
-    EditDialogComponent
+    EditDialogComponent,
   ],
   imports: [
     BrowserModule,
