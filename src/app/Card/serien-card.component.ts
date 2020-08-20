@@ -25,7 +25,9 @@ export class SerienCardComponent implements OnInit {
   faPen = faPen;
   sameViewerList: User[];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.refreshSameViewer();
+  }
 
   // aktualisiert Liste der User die Serie auch gesehen haben
 
@@ -33,7 +35,11 @@ export class SerienCardComponent implements OnInit {
     this.serienService
       .refreshSameViewer(this.serieData.id)
       .subscribe((result) => {
-        this.sameViewerList = result;
+        this.sameViewerList = result.filter((user) => {
+          if (user.username !== this.authService.currentUserValue.username) {
+            return user;
+          }
+        });
       });
   }
 
