@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AlertService } from 'src/app/service/alert.service';
 import { User } from 'src/app/model/User';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
+    private alertService: AlertService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -37,13 +39,13 @@ export class LoginComponent implements OnInit {
       .subscribe((user) => {
         if (user === this.authService.currentUserValue) {
           this.router.navigate(['home']);
+          return;
         }
+        this.alertService.openAlert('Benutzername oder Passwort falsch!');
       });
   }
 
   registerActivation(): void {
     this.router.navigate(['register']);
   }
-
-
 }
