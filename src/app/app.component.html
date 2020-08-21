@@ -1,11 +1,14 @@
-<div class="container-fluid d-flex align-items-center justify-content-between p-1"
-    *ngIf="this.authService.currentUserValue">
-
-    <span class="m-2"> Willkommen <b>{{ this.authService.currentUserValue.username }}</b>!
-    </span>
-    <button mat-icon-button class="m-2" (click)="logout()" color="warn">
-        <fa-icon class="font-24" [icon]="faSignOutAlt"></fa-icon>
-    </button>
+<div
+  class="container-fluid d-flex align-items-center justify-content-between p-1"
+  *ngIf="this.authService.currentUserValue"
+>
+  <span class="m-2">
+    Willkommen <b>{{ this.authService.currentUserValue.username }}</b
+    >!
+  </span>
+  <button mat-icon-button class="m-2" (click)="logout()" color="warn">
+    <fa-icon class="font-24" [icon]="faSignOutAlt"></fa-icon>
+  </button>
 </div>
 <mat-divider></mat-divider>
 <router-outlet></router-outlet>

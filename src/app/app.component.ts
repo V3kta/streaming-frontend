@@ -9,13 +9,13 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
   faSignOutAlt = faSignOutAlt;
-  constructor(private router: Router, public authService: AuthenticationService) {}
+  constructor(
+    private router: Router,
+    public authService: AuthenticationService
+  ) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   logout(): void {
     this.authService.logout();
