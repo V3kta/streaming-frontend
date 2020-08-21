@@ -7,6 +7,7 @@ import { Serie } from 'src/app/model/Serie';
 import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private serienService: SerienService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,10 @@ export class HomeComponent implements OnInit {
 
   getAllSerien(): void {
     this.serienService.refreshAllSerien().subscribe((result) => {
+      if (!result) {
+        this.alertService.openAlert('Serien konnten nicht geladen werden');
+        return;
+      }
       result.forEach((serie) => {
         this.options.push(serie);
       });
@@ -54,6 +60,12 @@ export class HomeComponent implements OnInit {
     this.serienService
       .refreshUserSerien(this.authService.currentUserValue.id)
       .subscribe((result) => {
+        if (!result) {
+          this.alertService.openAlert(
+            'Nutzerserien konnten nicht geladen werden'
+          );
+          return;
+        }
         this.userSerien = result;
       });
   }
@@ -72,7 +84,6 @@ export class HomeComponent implements OnInit {
         zgStaffel: 0,
       })
       .subscribe(() => {
-        console.log(serie);
         this.refreshUserSerienList();
         return;
       });
