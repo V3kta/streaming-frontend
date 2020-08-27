@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -28,18 +30,32 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void {
-    this.authService
-      .registerUser(
-        this.usernameControl.value,
-        this.passwordControl.value,
-        this.vornameControl.value,
-        this.nachnameControl.value
-      )
-      .subscribe((result) => {
-        console.log(result);
-        return;
-      });
+    if (
+      this.usernameControl.value &&
+      this.passwordControl.value &&
+      this.vornameControl.value &&
+      this.nachnameControl.value
+    ) {
+      this.authService
+        .registerUser(
+          this.usernameControl.value,
+          this.passwordControl.value,
+          this.vornameControl.value,
+          this.nachnameControl.value
+        )
+        .subscribe((result) => {
+          if (result === 'FORBIDDEN') {
+            console.log(result);
+            this.alertService.openAlert('Nutzername bereits vergeben!');
+            return;
+          }
+          this.router.navigate(['login']);
+          return;
+        });
+    } else {
+      this.alertService.openAlert('Alle Felder müssen ausgefüllt werden!');
+    }
 
-    this.router.navigate(['login']);
+
   }
 }
