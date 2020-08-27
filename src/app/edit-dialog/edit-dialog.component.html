@@ -1,17 +1,16 @@
-<h1 mat-dialog-title>Daten veränderung</h1>
-<div mat-dialog-content>
-  <mat-form-field>
-  <mat-label>Zuletzt gesehen Am:</mat-label>
-  <input matInput [formControl]="datumControl">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Zuletzt gesehen Staffel:</mat-label>
-    <input matInput [formControl]="folgeControl">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Zuletzt gesehen Folge:</mat-label>
-      <input matInput [formControl]="staffelControl">
-      </mat-form-field>
-  <button mat-button (click)="cancelChanges()">Abbrechen</button>
-  <button mat-button (click)="saveChanges()">Speichern</button>
-</div>
+<mat-form-field>
+  <mat-label>Choose a date</mat-label>
+<!-- #docregion toggle -->
+  <input matInput [formControl]="datumControl" [matDatepicker]="picker">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+<!-- #enddocregion toggle -->
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Zuletzt gesehene Staffel" [formControl]="folgeControl">
+</mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Zuletzt gesehene Folge" [formControl]="staffelControl">
+</mat-form-field>
+<button mat-button (click)="cancelChanges()">Abbrechen</button>
+<button mat-button (click)="saveChanges()">Speichern</button>
