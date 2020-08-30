@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RegisterComponent } from './register/register.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RegisterComponent } from './register/register.component';
     HomeComponent,
     EditDialogComponent,
     RegisterComponent,
+    AccountSettingsComponent,
   ],
   imports: [
     BrowserModule,
