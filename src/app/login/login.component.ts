@@ -1,10 +1,8 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from 'src/app/service/authentication.service';
-import { AlertService } from 'src/app/service/alert.service';
-import { User } from 'src/app/model/User';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from 'src/app/service/alert.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-login',

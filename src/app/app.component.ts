@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
+import { User } from 'src/app/model/User';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +9,24 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  faSignOutAlt = faSignOutAlt;
   constructor(
     private router: Router,
-    public authService: AuthenticationService
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {}
+
+  getCurrentUser(): User {
+    return this.authService.currentUserValue;
+  }
+
+  getCurrentUrl(): string {
+    return this.router.url;
+  }
+
+  navigateByUrl(url: string): void {
+    this.router.navigateByUrl(url);
+  }
 
   logout(): void {
     this.authService.logout();
