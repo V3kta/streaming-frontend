@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
     return this.router.url;
   }
 
+  navigateByUrl(url: string): void {
+    this.router.navigateByUrl(url);
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('login');
