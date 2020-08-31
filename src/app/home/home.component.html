@@ -41,9 +41,9 @@
 </ng-container>
 
 <ng-container *ngIf="getCurrentViewMode() === cardViewMode.Tile">
-  <div class="container-fluid d-flex flex-wrap justify-content-between">
+  <div class="container-fluid d-flex flex-wrap">
     <app-serien-card *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
-      (refreshList)="deleteUserSerie($event)" class="w-20 m-1">
+      (refreshList)="deleteUserSerie($event)" class="w-20 m-1 max-width-350">
     </app-serien-card>
   </div>
 </ng-container>

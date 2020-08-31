@@ -29,6 +29,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     min-height: 350px;
 }
 
+.max-width-350 {
+    max-width: 350px;
+}
+
 // custom colors
 
 .mat-positive {

@@ -51,17 +51,14 @@
   <mat-card class="m-h-350">
     <div class="d-flex flex-column">
 
-        <img [src]="serieData.bildPfad" >
+      <img [src]="serieData.bildPfad">
 
-        <span class="font-weight-bold font-20">
-          {{ serieData.name }}
-        </span>
-        <span class="mt-3">
-          <p class="">
-            {{ serieData.beschreibung }}
-          </p>
-  
-        </span>
-      </div>
+      <span class="font-weight-bold font-20 mt-1">
+        {{ serieData.name }}
+      </span>
+      <span class="mt-1">
+        {{ serieData.beschreibung }}
+      </span>
+    </div>
   </mat-card>
 </ng-container>
