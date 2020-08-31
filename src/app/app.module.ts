@@ -34,7 +34,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
-          if (localStorage.length > 0) {
+          if (localStorage.getItem('currentUser')) {
             return JSON.parse(localStorage.getItem('currentUser')).token;
           }
           return null;

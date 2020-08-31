@@ -6,6 +6,8 @@ import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { SettingsService } from 'src/app/service/settings.service';
+import { CardViewMode } from 'src/app/model/Enums';
 
 @Component({
   selector: 'app-serien-card',
@@ -16,13 +18,13 @@ export class SerienCardComponent implements OnInit {
   constructor(
     private serienService: SerienService,
     private authService: AuthenticationService,
+    private settingsService: SettingsService,
     public dialog: MatDialog
   ) {}
 
   @Input() serieData: Serie;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
-  faTrash = faTrash;
-  faPen = faPen;
+  cardViewMode = CardViewMode;
   sameViewerList: User[];
 
   ngOnInit(): void {
@@ -81,5 +83,9 @@ export class SerienCardComponent implements OnInit {
           });
       }
     });
+  }
+
+  getCurrentViewMode(): string {
+    return this.settingsService.loadSettings().cardViewMode;
   }
 }

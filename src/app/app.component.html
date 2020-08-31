@@ -10,13 +10,10 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="navigateByUrl('account')">Accounteinstellungen</button>
     </mat-menu>
-    <button mat-flat-button (click)="logout()" color="warn" class="ml-2">
+    <button mat-flat-button (click)="logout()" color="negative" class="ml-2">
       Logout
     </button>
   </span>
 
 </mat-toolbar>
-
-
-<mat-divider></mat-divider>
 <router-outlet></router-outlet>

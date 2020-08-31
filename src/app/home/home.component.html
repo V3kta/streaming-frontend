@@ -1,21 +1,49 @@
-<div class="container-fluid d-flex flex-baseline align-items-center">
-  <fa-icon class="mr-2 font-20" [icon]="faSearch"></fa-icon>
-  <mat-form-field>
-    <input matInput type="search" placeholder="Seriensuche" [formControl]="serienControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option (click)="addSerieToUserList(option)" *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option.name}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+<div class="container-fluid d-flex align-items-center justify-content-between">
+  <span class="d-flex align-items-center">
+    <fa-icon class="mr-2 font-20" [icon]="faSearch"></fa-icon>
+    <mat-form-field>
+      <input matInput type="search" placeholder="Seriensuche" [formControl]="serienControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option (click)="addSerieToUserList(option)" *ngFor="let option of filteredOptions | async"
+          [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </span>
+
+  <span class="d-flex align-items-center">
+
+    <span class="m-1">Serienansicht</span>
+
+    <mat-button-toggle-group (change)="saveCurrentViewMode($event.value)" name="cardViewModeSelection" class="m-1" [value]="getCurrentViewMode()">
+      <mat-button-toggle mat-icon-button value="LIST">
+        <mat-icon>view_list</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="TILE">
+        <mat-icon>view_module</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </span>
 
 </div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <app-serien-card class="serie-card" *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
-        (refreshList)="deleteUserSerie($event)">
-      </app-serien-card>
+
+<ng-container *ngIf="getCurrentViewMode() === cardViewMode.List">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <app-serien-card *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
+          (refreshList)="deleteUserSerie($event)">
+        </app-serien-card>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="getCurrentViewMode() === cardViewMode.Tile">
+  <div class="container-fluid d-flex flex-wrap justify-content-between">
+    <app-serien-card *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
+      (refreshList)="deleteUserSerie($event)" class="w-20 m-1">
+    </app-serien-card>
+  </div>
+</ng-container>

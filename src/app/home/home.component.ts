@@ -8,6 +8,8 @@ import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/service/alert.service';
+import { SettingsService } from 'src/app/service/settings.service';
+import { CardViewMode } from 'src/app/model/Enums';
 
 @Component({
   selector: 'app-home',
@@ -22,11 +24,15 @@ export class HomeComponent implements OnInit {
 
   userSerien: Serie[];
   sameViewerArray: User[];
+  cardViewMode = CardViewMode;
+
+
 
   constructor(
     private serienService: SerienService,
     private authService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +44,14 @@ export class HomeComponent implements OnInit {
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.options.slice()))
     );
+  }
+
+  getCurrentViewMode(): string {
+    return this.settingsService.loadSettings().cardViewMode;
+  }
+
+  saveCurrentViewMode(viewMode: string): void {
+    this.settingsService.saveSettings(viewMode, 'default');
   }
 
   // Lädt alle Serien aus der DB
