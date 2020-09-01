@@ -1,11 +1,48 @@
 <mat-toolbar color="primary">
-    <button mat-raised-button class="float-right" color="accent" (click)="navigateByUrl('home')">Zurück zur Serienübersicht</button>
+    <button mat-raised-button class="float-right" color="accent" (click)="navigateByUrl('home')">Zurück zur
+        Serienübersicht</button>
 </mat-toolbar>
 
 <mat-tab-group>
     <mat-tab label="Allgemein">
 
+
     </mat-tab>
-    <mat-tab label="Sicherheit"> Test 2 </mat-tab>
+    <mat-tab label="Sicherheit">
+        <ng-container *ngIf="!usernameEditierbar">
+            {{ getCurrentUser().username }}
+        </ng-container>
+        <ng-container *ngIf="usernameEditierbar"></ng-container>
+
+        <ng-container *ngIf="!emailEditierbar"></ng-container>
+        <ng-container *ngIf="emailEditierbar"></ng-container>
+
+        <ng-container *ngIf="!passwortEditierbar">
+            <mat-form-field>
+                <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Passwort"
+                    [value]="getCurrentUser().password" [disabled]="true">
+            </mat-form-field>
+
+
+        </ng-container>
+        <ng-container *ngIf="passwortEditierbar">
+            <mat-form-field>
+                <input matInput type="password">
+            </mat-form-field>
+            <span>
+                <mat-form-field>
+                    <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Neues Passwort">
+                </mat-form-field>
+                <button mat-icon-button (click)="showHidePassword()">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+            </span>
+            <mat-form-field>
+                <input matInput type="password">
+            </mat-form-field>
+            <button mat-raised-button (click)="savePassword(true)">Speichern</button>
+            <button mat-raised-button (click)="savePassword(false)">Abbrechen</button>
+        </ng-container>
+    </mat-tab>
 
 </mat-tab-group>

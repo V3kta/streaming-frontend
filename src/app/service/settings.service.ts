@@ -10,11 +10,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SettingsService {
   private cardViewModeSubject: BehaviorSubject<string>;
   private themeSubject: BehaviorSubject<string>;
+  private settingsSubject: BehaviorSubject<Settings>;
   userId: number;
 
   constructor(private alertService: AlertService, private http: HttpClient) {
     this.cardViewModeSubject = new BehaviorSubject<string>(null);
     this.themeSubject = new BehaviorSubject<string>(null);
+    this.settingsSubject = new BehaviorSubject<Settings>(null);
   }
 
   public getCurrentViewMode(): string {
@@ -24,6 +26,8 @@ export class SettingsService {
   public getCurrentTheme(): string {
     return this.themeSubject.value;
   }
+
+  public getCurrentSettings(): Settings {}
 
   refreshSettingsDb(userId: number): void {
     this.userId = userId;
