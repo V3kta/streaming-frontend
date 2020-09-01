@@ -47,11 +47,11 @@ export class HomeComponent implements OnInit {
   }
 
   getCurrentViewMode(): string {
-    return this.settingsService.loadSettings().cardViewMode;
+    return this.settingsService.getCurrentViewMode();
   }
 
   saveCurrentViewMode(viewMode: string): void {
-    this.settingsService.saveSettings(viewMode, 'default');
+    this.settingsService.saveSettingsLocal(viewMode, null);
   }
 
   // Lädt alle Serien aus der DB

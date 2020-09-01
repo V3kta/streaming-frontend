@@ -86,6 +86,6 @@ export class SerienCardComponent implements OnInit {
   }
 
   getCurrentViewMode(): string {
-    return this.settingsService.loadSettings().cardViewMode;
+    return this.settingsService.getCurrentViewMode();
   }
 }
