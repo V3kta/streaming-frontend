@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { SettingsService } from 'src/app/service/settings.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private alertService: AlertService,
+    private settingsService: SettingsService,
     private router: Router,
     private route: ActivatedRoute
   ) {

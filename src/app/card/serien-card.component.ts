@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
+import { Settings } from 'src/app/model/Settings';
 
 @Component({
   selector: 'app-serien-card',
@@ -86,6 +87,10 @@ export class SerienCardComponent implements OnInit {
   }
 
   getCurrentViewMode(): string {
-    return this.settingsService.getCurrentViewMode();
+    const settings = this.settingsService.currentSettings;
+    if (settings && settings.cardViewMode) {
+      return settings.cardViewMode;
+    }
+    return 'LIST';
   }
 }

@@ -3,79 +3,67 @@ import { Settings } from '../model/Settings';
 import { AlertService } from './alert.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  private cardViewModeSubject: BehaviorSubject<string>;
-  private themeSubject: BehaviorSubject<string>;
   private settingsSubject: BehaviorSubject<Settings>;
-  userId: number;
 
-  constructor(private alertService: AlertService, private http: HttpClient) {
-    this.cardViewModeSubject = new BehaviorSubject<string>(null);
-    this.themeSubject = new BehaviorSubject<string>(null);
+  constructor(
+    private alertService: AlertService,
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {
     this.settingsSubject = new BehaviorSubject<Settings>(null);
   }
 
-  public getCurrentViewMode(): string {
-    return this.cardViewModeSubject.value;
+  public get currentSettings(): Settings {
+    return this.settingsSubject.value;
   }
 
-  public getCurrentTheme(): string {
-    return this.themeSubject.value;
+  public clearSettings(): void {
+    this.settingsSubject.next(null);
   }
 
-  public getCurrentSettings(): Settings {}
-
-  refreshSettingsDb(userId: number): void {
-    this.userId = userId;
-    this.http
+  public getSettings(): Observable<Settings> {
+    return this.http
       .get<Settings>(
-        `http://localhost:8080/user/refreshSettings/${this.userId}`
+        `http://localhost:8080/user/settings/refresh/${this.authService.currentUserValue.id}`
       )
-      .subscribe((result) => {
-        console.log(result);
-        if (!result) {
+      .pipe(
+        map((settings) => {
+          if (settings) {
+            localStorage.setItem('settings', JSON.stringify(settings));
+            this.settingsSubject.next(settings);
+            return settings;
+          }
           localStorage.setItem(
             'settings',
             JSON.stringify(new Settings('LIST', 'default'))
           );
-          return;
-        }
-        this.cardViewModeSubject.next(result.cardViewMode);
-        this.themeSubject.next(result.theme);
-        localStorage.setItem('settings', JSON.stringify(result));
-        return;
-      });
+          this.settingsSubject.next(new Settings('LIST', 'default'));
+          return this.settingsSubject.value;
+        })
+      );
   }
 
-  saveSettingsDb(): Observable<string> {
-    const settings = {
-      cardViewMode: this.cardViewModeSubject.value,
-      theme: this.themeSubject.value,
-    };
+  public saveSettings(): Observable<string> {
     return this.http.post<string>(
-      `http://localhost:8080/user/saveSettings/${this.userId}`,
-      settings
+      `http://localhost:8080/user/settings/save/${this.authService.currentUserValue.id}`,
+      this.settingsSubject.value
     );
   }
 
-  saveSettingsLocal(mode: string, theme: string): void {
-    if (mode != null) {
-      this.cardViewModeSubject.next(mode);
-    }
+  public getLocalSettings(): Settings {
+    return JSON.parse(localStorage.getItem('settings'));
+  }
 
-    if (theme != null) {
-      this.themeSubject.next(theme);
-    }
-
-    localStorage.setItem(
-      'settings',
-      JSON.stringify(
-        new Settings(this.cardViewModeSubject.value, this.themeSubject.value)
-      )
-    );
+  public saveLocalSettings(settings: Settings): void {
+    localStorage.setItem('settings', JSON.stringify(settings));
+    this.settingsSubject.next(settings);
+    this.saveSettings().subscribe();
   }
 }

@@ -10,6 +10,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/service/alert.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
+import { Settings } from 'src/app/model/Settings';
 
 @Component({
   selector: 'app-home',
@@ -26,8 +27,6 @@ export class HomeComponent implements OnInit {
   sameViewerArray: User[];
   cardViewMode = CardViewMode;
 
-
-
   constructor(
     private serienService: SerienService,
     private authService: AuthenticationService,
@@ -38,20 +37,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllSerien();
     this.refreshUserSerienList();
+    this.settingsService.getSettings().subscribe();
 
     this.filteredOptions = this.serienControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.options.slice()))
     );
-  }
-
-  getCurrentViewMode(): string {
-    return this.settingsService.getCurrentViewMode();
-  }
-
-  saveCurrentViewMode(viewMode: string): void {
-    this.settingsService.saveSettingsLocal(viewMode, null);
   }
 
   // Lädt alle Serien aus der DB
@@ -120,6 +112,20 @@ export class HomeComponent implements OnInit {
 
     return this.options.filter(
       (option) => option.name.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
+
+  getCurrentViewMode(): string {
+    const settings = this.settingsService.currentSettings;
+    if (settings && settings.cardViewMode) {
+      return settings.cardViewMode;
+    }
+    return 'LIST';
+  }
+
+  saveCurrentViewMode(currentViewMode: string): void {
+    this.settingsService.saveLocalSettings(
+      new Settings(currentViewMode, 'default')
     );
   }
 }

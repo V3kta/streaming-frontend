@@ -12,7 +12,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient, private settingsService: SettingsService) {
+  constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem('currentUser'))
     );
@@ -39,7 +39,6 @@ export class AuthenticationService {
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           if (user) {
-            this.settingsService.refreshSettingsDb(user.id);
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
             return user;
