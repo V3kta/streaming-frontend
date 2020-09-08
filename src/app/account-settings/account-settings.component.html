@@ -9,40 +9,37 @@
 
     </mat-tab>
     <mat-tab label="Sicherheit">
-        {{ getCurrentUser().username }}
+        Benutzername: {{ getCurrentUser().username }}
         <div>
             <ng-container *ngIf="!usernameEditierbar">
-                <button mat-raised-button color="accent" (click)="editUsername()">Benutzernamen ändern</button>
+                <button mat-raised-button color="accent"
+                    (click)="usernameEditierbar = !usernameEditierbar">Benutzernamen ändern</button>
             </ng-container>
             <ng-container *ngIf="usernameEditierbar">
                 <div class="d-inline-flex flex-column">
                     <mat-form-field>
-                        <input matInput type="text" placeholder="Alter Benutzername">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput type"text" placeholder="Neuer Benutzernamen">
+                        <input matInput type="text" placeholder="Neuer Benutzername" [formControl]="newUsernameControl">
                     </mat-form-field>
                     <span class="d-inline-flex">
                         <button mat-raised-button (click)="saveUsername(true)">Speichern</button>
                         <button mat-raised-button (click)="saveUsername(false)">Abbrechen</button>
                     </span>
                 </div>
-        </ng-container>
-    </div>
+            </ng-container>
+        </div>
         <div>
             <ng-container *ngIf="!emailEditierbar">
-                <button mat-raised-button color="accent" (click)="editEmail()">Email ändern</button>
+                <button mat-raised-button color="accent" (click)="emailEditierbar = !emailEditierbar">Email
+                    ändern</button>
             </ng-container>
             <ng-container *ngIf="emailEditierbar">
                 <div class="d-inline-flex flex-column">
                     <mat-form-field>
-                        <input matInput type="text" placeholder="Alte Email">
+                        <input matInput type="text" placeholder="Neue Email" [formControl]="newEmailControl">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput type="text" placeholder="Neue Email">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput type="text" placeholder="Neue Email wiederholen">
+                        <input matInput type="text" placeholder="Neue Email wiederholen"
+                            [formControl]="newEmailRepeatControl">
                     </mat-form-field>
                     <span class="d-inline-flex">
                         <button mat-raised-button (click)="saveEmail(true)">Speichern</button>
@@ -56,21 +53,24 @@
         </div>
         <div>
             <ng-container *ngIf="!passwortEditierbar">
-                <button mat-raised-button color="accent" (click)="editPassword()">Password ändern</button>
+                <button mat-raised-button color="accent" (click)="passwortEditierbar = !passwortEditierbar">Password
+                    ändern</button>
             </ng-container>
             <ng-container *ngIf="passwortEditierbar">
                 <div class="d-inline-flex flex-column">
                     <mat-form-field>
-                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Altes Passwort">
+                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Altes Passwort"
+                            [formControl]="oldPasswordControl">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Neues Passwort">
+                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Neues Passwort"
+                            [formControl]="newPasswordControl">
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput [type]="showPassword ? 'text' : 'password'"
-                            placeholder="Neues Passwort wiederholen">
+                            placeholder="Neues Passwort wiederholen" [formControl]="newPasswordRepeatControl">
                     </mat-form-field>
-                    <button mat-icon-button (click)="showHidePassword()">
+                    <button mat-icon-button (click)="showPassword = !showPassword">
                         <mat-icon>visibility</mat-icon>
                     </button>
                     <span class="d-inline-flex">
