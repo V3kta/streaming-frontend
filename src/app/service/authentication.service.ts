@@ -48,12 +48,14 @@ export class AuthenticationService {
   }
 
   registerUser(
+    uEmail: string,
     uName: string,
     uPass: string,
     uVorname: string,
     uNachname: string
   ): Observable<string> {
     return this.http.post<string>('http://localhost:8080/user/register', {
+      email: uEmail,
       username: uName,
       password: uPass,
       vorname: uVorname,
