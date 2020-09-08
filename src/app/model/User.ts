@@ -5,14 +5,12 @@ export class User {
     username: string,
     vorname: string,
     nachname: string,
-    password: string
   ) {
     this.id = id;
     this.email = email;
     this.username = username;
     this.vorname = vorname;
     this.nachname = nachname;
-    this.password = password;
   }
   id: number;
 
@@ -23,8 +21,6 @@ export class User {
   vorname: string;
 
   nachname: string;
-
-  password: string;
 
   token?: string;
 }

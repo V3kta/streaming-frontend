@@ -62,4 +62,16 @@ export class AuthenticationService {
       nachname: uNachname,
     });
   }
+
+  changePassword(
+    uId: number,
+    uOldPw: string,
+    uNewPw: string
+  ): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/user/changePassword', {
+      id: uId,
+      oldPassword: uOldPw,
+      newPassword: uNewPw,
+    });
+  }
 }
