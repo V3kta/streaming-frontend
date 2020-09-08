@@ -29,10 +29,10 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
-  login(uName: string, uPw: string): Observable<User> {
+  login(uLogin: string, uPw: string): Observable<User> {
     return this.http
       .post<User>('http://localhost:8080/user/login', {
-        username: uName,
+        login: uLogin,
         password: uPw,
       })
       .pipe(
