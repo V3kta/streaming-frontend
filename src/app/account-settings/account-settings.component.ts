@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { User } from 'src/app/model/User';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -22,6 +23,7 @@ export class AccountSettingsComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
+    private alertService: AlertService,
     private router: Router,
     private authService: AuthenticationService
   ) {}
@@ -41,15 +43,15 @@ export class AccountSettingsComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  editUsername(): void  {
+  editUsername(): void {
     this.usernameEditierbar = true;
   }
 
-  editEmail(): void  {
+  editEmail(): void {
     this.emailEditierbar = true;
   }
 
-  editPassword(): void  {
+  editPassword(): void {
     this.passwortEditierbar = true;
   }
 
@@ -59,15 +61,29 @@ export class AccountSettingsComponent implements OnInit {
     this.usernameEditierbar = false;
   }
 
-  saveEmail(email: string): void  {
+  saveEmail(email: string): void {
     if (!email) {
     }
     this.emailEditierbar = false;
   }
 
-  savePassword(save: boolean): void  {
+  savePassword(save: boolean): void {
     if (save) {
+      if (this.newPasswordControl.value === this.newPasswordRepeatControl) {
+        this.authService
+          .changePassword(
+            this.oldPasswordControl.value,
+            this.newPasswordControl.value
+          )
+          .subscribe((result) => {
+            if (result === 'NOT_ACCEPTABLE') {
+              this.alertService.openAlert('Altes Passwortes ungültig!');
+              return;
+            }
 
+            this.alertService.openAlert('Password geändert!');
+          });
+      }
     }
     this.passwortEditierbar = false;
   }

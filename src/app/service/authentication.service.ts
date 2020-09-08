@@ -64,12 +64,11 @@ export class AuthenticationService {
   }
 
   changePassword(
-    uId: number,
     uOldPw: string,
     uNewPw: string
   ): Observable<string> {
     return this.http.post<string>('http://localhost:8080/user/changePassword', {
-      id: uId,
+      id: this.currentUserValue.id,
       oldPassword: uOldPw,
       newPassword: uNewPw,
     });
