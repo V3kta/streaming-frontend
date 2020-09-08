@@ -9,18 +9,50 @@
 
     </mat-tab>
     <mat-tab label="Sicherheit">
+        {{ getCurrentUser().username }}
         <div>
             <ng-container *ngIf="!usernameEditierbar">
-                {{ getCurrentUser().username }}
+                <button mat-raised-button color="accent" (click)="editUsername()">Benutzernamen ändern</button>
             </ng-container>
             <ng-container *ngIf="usernameEditierbar">
+                <div class="d-inline-flex flex-column">
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Alter Benutzername">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type"text" placeholder="Neuer Benutzernamen">
+                    </mat-form-field>
+                    <span class="d-inline-flex">
+                        <button mat-raised-button (click)="saveUsername(true)">Speichern</button>
+                        <button mat-raised-button (click)="saveUsername(false)">Abbrechen</button>
+                    </span>
+                </div>
+        </ng-container>
+    </div>
+        <div>
+            <ng-container *ngIf="!emailEditierbar">
+                <button mat-raised-button color="accent" (click)="editEmail()">Email ändern</button>
+            </ng-container>
+            <ng-container *ngIf="emailEditierbar">
+                <div class="d-inline-flex flex-column">
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Alte Email">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Neue Email">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Neue Email wiederholen">
+                    </mat-form-field>
+                    <span class="d-inline-flex">
+                        <button mat-raised-button (click)="saveEmail(true)">Speichern</button>
+                        <button mat-raised-button (click)="saveEmail(false)">Abbrechen</button>
+                    </span>
+                </div>
             </ng-container>
         </div>
         <div>
-            <ng-container *ngIf="!emailEditierbar">
-            </ng-container>
-            <ng-container *ngIf="emailEditierbar">
-            </ng-container>
+
         </div>
         <div>
             <ng-container *ngIf="!passwortEditierbar">
