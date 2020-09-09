@@ -5,11 +5,16 @@
 
 <mat-tab-group>
     <mat-tab label="Allgemein">
-
-
+        <span class="d-inline-flex flex-column">
+            <h1>Userinformationen</h1>
+            <span>Benutzername: {{ getCurrentUser().username }}</span>
+            <span>Emailadresse: {{ getCurrentUser().email }}</span>
+            <span>Vorname: {{ getCurrentUser().vorname }}</span>
+            <span>Nachname: {{ getCurrentUser().nachname }}</span>
+        </span>
     </mat-tab>
+
     <mat-tab label="Sicherheit">
-        Benutzername: {{ getCurrentUser().username }}
         <div>
             <ng-container *ngIf="!usernameEditierbar">
                 <button mat-raised-button color="accent"
