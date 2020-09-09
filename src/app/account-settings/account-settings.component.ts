@@ -57,7 +57,6 @@ export class AccountSettingsComponent implements OnInit {
         .changeUsername(this.newUsernameControl.value)
         .subscribe((result) => {
           if (result === 'NOT_ACCEPTABLE') {
-            console.log(result);
             this.alertService.openAlert('Username bereits vorhanden!');
             return;
           }

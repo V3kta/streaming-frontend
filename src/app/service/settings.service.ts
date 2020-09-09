@@ -36,7 +36,6 @@ export class SettingsService {
       .pipe(
         map((settings) => {
           if (settings) {
-            console.log(settings);
             localStorage.setItem('settings', JSON.stringify(settings));
             this.settingsSubject.next(settings);
             return settings;
@@ -46,7 +45,6 @@ export class SettingsService {
             JSON.stringify(new Settings('LIST', 'default'))
           );
           this.settingsSubject.next(new Settings('LIST', 'default'));
-          console.log('settings erstellt');
           this.saveSettings().subscribe();
           return this.settingsSubject.value;
         })

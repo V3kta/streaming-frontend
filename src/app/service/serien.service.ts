@@ -28,8 +28,8 @@ export class SerienService {
 
   saveUserSerie(u: User, s: Serie): Observable<string> {
     return this.http.post<string>('http://localhost:8080/serie/user/save', {
-      userDto: u,
-      serieDto: s,
+      userDTO: u,
+      serieDTO: s,
     });
   }
 
