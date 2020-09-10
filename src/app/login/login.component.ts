@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
         }
         this.alertService.openAlert('Benutzername/Email oder Passwort falsch!');
       });
+    localStorage.setItem('sorting', 'default');
   }
 
   registerActivation(): void {

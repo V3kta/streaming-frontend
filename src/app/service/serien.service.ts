@@ -16,7 +16,7 @@ export class SerienService {
 
   getUserSerien(userId: number): Observable<Serie[]> {
     return this.http.get<Serie[]>(
-      `http://localhost:8080/user/${userId}/serien`
+      `http://localhost:8080/user/${userId}/serien?sorting=${localStorage.getItem('sorting')}`
     );
   }
 
