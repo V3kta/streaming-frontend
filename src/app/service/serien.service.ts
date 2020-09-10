@@ -10,33 +10,27 @@ import { User } from 'src/app/model/User';
 export class SerienService {
   constructor(private http: HttpClient) {}
 
-  refreshAllSerien(): Observable<Serie[]> {
-    return this.http.get<Serie[]>('http://localhost:8080/serie/refresh/all');
+  getSerien(): Observable<Serie[]> {
+    return this.http.get<Serie[]>('http://localhost:8080/serien');
   }
 
-  refreshUserSerien(userId: number): Observable<Serie[]> {
+  getUserSerien(userId: number): Observable<Serie[]> {
     return this.http.get<Serie[]>(
-      `http://localhost:8080/serie/user/refresh/${userId}`
+      `http://localhost:8080/user/${userId}/serien`
     );
   }
 
-  refreshSameViewer(serieId: number): Observable<User[]> {
+  getViewers(serieId: number): Observable<User[]> {
     return this.http.get<User[]>(
-      `http://localhost:8080/user/serie/refresh/same/${serieId}`
+      `http://localhost:8080/serien/${serieId}/user`
     );
   }
 
-  saveUserSerie(u: User, s: Serie): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/serie/user/save', {
-      userDTO: u,
-      serieDTO: s,
-    });
+  saveUserSerie(userId: number, serie: Serie): Observable<string> {
+    return this.http.post<string>(`http://localhost:8080/user/${userId}/serien`, serie);
   }
 
-  deleteUserSerie(uId: number, sId: number): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/serie/user/delete', {
-      userId: uId,
-      serieId: sId,
-    });
+  deleteUserSerie(userId: number, serieId: number): Observable<string> {
+    return this.http.delete<string>(`http://localhost:8080/user/${userId}/serien/${serieId}`);
   }
 }

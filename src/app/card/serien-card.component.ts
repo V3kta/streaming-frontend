@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
 import { Settings } from 'src/app/model/Settings';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-serien-card',
@@ -27,63 +28,53 @@ export class SerienCardComponent implements OnInit {
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
   cardViewMode = CardViewMode;
   sameViewerList: User[];
+  serieEditierbar: boolean;
+  datumControl: FormControl;
+  folgeControl: FormControl;
+  staffelControl: FormControl;
 
   ngOnInit(): void {
-    this.refreshSameViewer();
+    this.getViewers();
+    this.serieEditierbar = false;
+    this.datumControl = new FormControl('');
+    this.folgeControl = new FormControl('');
+    this.staffelControl = new FormControl('');
   }
 
   // aktualisiert Liste der User die Serie auch gesehen haben
 
-  refreshSameViewer(): void {
-    this.serienService
-      .refreshSameViewer(this.serieData.id)
-      .subscribe((result) => {
-        this.sameViewerList = result.filter((user) => {
-          if (user.username !== this.authService.currentUserValue.username) {
-            return user;
-          }
-        });
+  getViewers(): void {
+    this.serienService.getViewers(this.serieData.id).subscribe((result) => {
+      this.sameViewerList = result.filter((user) => {
+        if (user.username !== this.authService.currentUserValue.username) {
+          return user;
+        }
       });
+    });
   }
 
   // löscht Serie aus der Datenbank
 
-  deleteSerie(): void {
+  deleteUserSerie(): void {
     this.refreshList.emit(this.serieData.id);
   }
 
   // bearbeiten der Serie
 
-  editSerie(): void {
-    const dialogRef = this.dialog.open(EditDialogComponent, {
-      width: '250px',
-      data: {
-        zgDatum: this.serieData.zgDatum,
-        zgFolge: this.serieData.zgFolge,
-        zgStaffel: this.serieData.zgStaffel,
-      },
-    });
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data != null) {
-        this.serieData.zgDatum = data.zgDatum;
-        this.serieData.zgFolge = data.zgFolge;
-        this.serieData.zgStaffel = data.zgStaffel;
+  editSerieZgInfo(): void {
+    this.serieEditierbar = true;
+    this.datumControl.setValue(this.serieData.zgDatum);
+    this.folgeControl.setValue(this.serieData.zgFolge);
+    this.staffelControl.setValue(this.serieData.zgStaffel);
+  }
 
-        this.serienService
-          .saveUserSerie(this.authService.currentUserValue, {
-            id: this.serieData.id,
-            name: this.serieData.name,
-            beschreibung: this.serieData.beschreibung,
-            bildPfad: this.serieData.bildPfad,
-            zgDatum: this.serieData.zgDatum,
-            zgFolge: this.serieData.zgFolge,
-            zgStaffel: this.serieData.zgStaffel,
-          })
-          .subscribe((result) => {
-            console.log(result);
-          });
-      }
-    });
+  saveSerieZgInfo(save: boolean): void {
+    if (save) {
+      this.serieData.zgDatum = this.datumControl.value;
+      this.serieData.zgFolge = this.folgeControl.value;
+      this.serieData.zgStaffel = this.staffelControl.value;
+    }
+    this.serieEditierbar = false;
   }
 
   getCurrentViewMode(): string {
