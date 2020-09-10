@@ -3,6 +3,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { AlertService } from 'src/app/service/alert.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,7 @@ import { AlertService } from 'src/app/service/alert.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  emailControl: FormControl;
   usernameControl: FormControl;
   passwordControl: FormControl;
   vornameControl: FormControl;
@@ -23,6 +25,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.emailControl = new FormControl('');
     this.usernameControl = new FormControl('');
     this.passwordControl = new FormControl('');
     this.vornameControl = new FormControl('');
@@ -31,6 +34,7 @@ export class RegisterComponent implements OnInit {
 
   register(): void {
     if (
+      this.emailControl.value &&
       this.usernameControl.value &&
       this.passwordControl.value &&
       this.vornameControl.value &&
@@ -38,6 +42,7 @@ export class RegisterComponent implements OnInit {
     ) {
       this.authService
         .registerUser(
+          this.emailControl.value,
           this.usernameControl.value,
           this.passwordControl.value,
           this.vornameControl.value,

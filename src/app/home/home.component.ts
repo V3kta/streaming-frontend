@@ -8,6 +8,9 @@ import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/service/alert.service';
+import { SettingsService } from 'src/app/service/settings.service';
+import { CardViewMode } from 'src/app/model/Enums';
+import { Settings } from 'src/app/model/Settings';
 
 @Component({
   selector: 'app-home',
@@ -22,16 +25,19 @@ export class HomeComponent implements OnInit {
 
   userSerien: Serie[];
   sameViewerArray: User[];
+  cardViewMode = CardViewMode;
 
   constructor(
     private serienService: SerienService,
     private authService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit(): void {
     this.getAllSerien();
     this.refreshUserSerienList();
+    this.settingsService.getSettings().subscribe();
 
     this.filteredOptions = this.serienControl.valueChanges.pipe(
       startWith(''),
@@ -106,6 +112,20 @@ export class HomeComponent implements OnInit {
 
     return this.options.filter(
       (option) => option.name.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
+
+  getCurrentViewMode(): string {
+    const settings = this.settingsService.currentSettings;
+    if (settings && settings.cardViewMode) {
+      return settings.cardViewMode;
+    }
+    return 'LIST';
+  }
+
+  saveCurrentViewMode(currentViewMode: string): void {
+    this.settingsService.saveLocalSettings(
+      new Settings(currentViewMode, 'default')
     );
   }
 }

@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import './styles/material-theme';
+@import './styles/colors';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -12,12 +14,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .w-20 {
     width: 20%;
 }
-.serie-card {
-    background-color: white;
-}
-.serie-card:hover {
-    background-color: red;
-}
 .font-24 {
     font-size: 24px;
 }
@@ -27,4 +23,39 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .m-h-120 {
     min-height: 120px;
+}
+
+.m-h-350 {
+    min-height: 350px;
+}
+
+.max-width-350 {
+    max-width: 350px;
+}
+
+// custom colors
+
+.mat-positive {
+    background-color: $positive;
+    color: white;
+}
+
+.mat-negative {
+    background-color: $negative;
+    color: white;
+}
+
+.mat-positive-icon {
+    background-color: white;
+    color: $positive;
+}
+
+.mat-negative-icon {
+    background-color: white;
+    color: $negative;
+}
+
+.mat-warning {
+    background-color: $warning;
+    color: white;
 }

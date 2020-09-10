@@ -1,4 +1,92 @@
+<mat-toolbar color="primary">
+    <button mat-raised-button class="float-right" color="accent" (click)="navigateByUrl('home')">Zurück zur
+        Serienübersicht</button>
+</mat-toolbar>
+
 <mat-tab-group>
-    <mat-tab label="Allgemein"> Test 1 </mat-tab>
-    <mat-tab label="Sicherheit"> Test 2 </mat-tab>
+    <mat-tab label="Allgemein">
+        <span class="d-inline-flex flex-column">
+            <h1>Userinformationen</h1>
+            <span>Benutzername: {{ getCurrentUser().username }}</span>
+            <span>Emailadresse: {{ getCurrentUser().email }}</span>
+            <span>Vorname: {{ getCurrentUser().vorname }}</span>
+            <span>Nachname: {{ getCurrentUser().nachname }}</span>
+        </span>
+    </mat-tab>
+
+    <mat-tab label="Sicherheit">
+        <div>
+            <ng-container *ngIf="!usernameEditierbar">
+                <button class="m-2" mat-raised-button color="accent"
+                    (click)="usernameEditierbar = !usernameEditierbar">Benutzernamen ändern</button>
+            </ng-container>
+            <ng-container *ngIf="usernameEditierbar">
+                <div class="d-inline-flex flex-column">
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Neuer Benutzername" [formControl]="newUsernameControl">
+                    </mat-form-field>
+                    <span class="d-inline-flex">
+                        <button class="m-2" mat-raised-button (click)="saveUsername(true)">Speichern</button>
+                        <button class="m-2" mat-raised-button (click)="saveUsername(false)">Abbrechen</button>
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+        <div>
+            <ng-container *ngIf="!emailEditierbar">
+                <button class="m-2" mat-raised-button color="accent" (click)="emailEditierbar = !emailEditierbar">Email
+                    ändern</button>
+            </ng-container>
+            <ng-container *ngIf="emailEditierbar">
+                <div class="d-inline-flex flex-column">
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Neue Email" [formControl]="newEmailControl">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Neue Email wiederholen"
+                            [formControl]="newEmailRepeatControl">
+                    </mat-form-field>
+                    <span class="d-inline-flex">
+                        <button class="m-2"mat-raised-button (click)="saveEmail(true)">Speichern</button>
+                        <button class="m-2" mat-raised-button (click)="saveEmail(false)">Abbrechen</button>
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+        <div>
+
+        </div>
+        <div>
+            <ng-container *ngIf="!passwortEditierbar">
+                <button class="m-2" mat-raised-button color="accent" (click)="passwortEditierbar = !passwortEditierbar">Password
+                    ändern</button>
+            </ng-container>
+            <ng-container *ngIf="passwortEditierbar">
+                <div class="d-inline-flex flex-column p-2">
+                    <mat-form-field>
+                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Altes Passwort"
+                            [formControl]="oldPasswordControl">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Neues Passwort"
+                            [formControl]="newPasswordControl">
+                    </mat-form-field>
+                    <span class="d-flex">
+                    <mat-form-field>
+                        <input matInput [type]="showPassword ? 'text' : 'password'"
+                            placeholder="Neues Passwort wiederholen" [formControl]="newPasswordRepeatControl">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="showPassword = !showPassword">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                </span>
+                    <span class="d-inline-flex">
+                        <button class="m-2" mat-raised-button (click)="savePassword(true)">Speichern</button>
+                        <button class="m-2" mat-raised-button (click)="savePassword(false)">Abbrechen</button>
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+    </mat-tab>
+
 </mat-tab-group>

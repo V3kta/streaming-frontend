@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/model/User';
 import { map } from 'rxjs/operators';
+import { SettingsService } from 'src/app/service/settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +29,10 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
-  login(uName: string, uPw: string): Observable<User> {
+  login(uLogin: string, uPw: string): Observable<User> {
     return this.http
       .post<User>('http://localhost:8080/user/login', {
-        username: uName,
+        login: uLogin,
         password: uPw,
       })
       .pipe(
@@ -47,16 +48,40 @@ export class AuthenticationService {
   }
 
   registerUser(
+    uEmail: string,
     uName: string,
     uPass: string,
     uVorname: string,
     uNachname: string
   ): Observable<string> {
     return this.http.post<string>('http://localhost:8080/user/register', {
+      email: uEmail,
       username: uName,
       password: uPass,
       vorname: uVorname,
       nachname: uNachname,
+    });
+  }
+
+  changePassword(uOldPw: string, uNewPw: string): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/user/changePassword', {
+      id: this.currentUserValue.id,
+      oldPassword: uOldPw,
+      newPassword: uNewPw,
+    });
+  }
+
+  changeEmail(uEmail: string): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/user/changeEmail', {
+      id: this.currentUserValue.id,
+      email: uEmail,
+    });
+  }
+
+  changeUsername(uName: string): Observable<string> {
+    return this.http.post<string>('http://localhost:8080/user/changeUsername', {
+      id: this.currentUserValue.id,
+      username: uName,
     });
   }
 }
