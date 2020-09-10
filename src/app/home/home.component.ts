@@ -11,6 +11,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
 import { Settings } from 'src/app/model/Settings';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -35,8 +36,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllSerien();
-    this.refreshUserSerienList();
+    this.getSerien();
+    this.getUserSerien();
     this.settingsService.getSettings().subscribe();
 
     this.filteredOptions = this.serienControl.valueChanges.pipe(
@@ -48,8 +49,8 @@ export class HomeComponent implements OnInit {
 
   // Lädt alle Serien aus der DB
 
-  getAllSerien(): void {
-    this.serienService.refreshAllSerien().subscribe((result) => {
+  getSerien(): void {
+    this.serienService.getSerien().subscribe((result) => {
       if (!result) {
         this.alertService.openAlert('Serien konnten nicht geladen werden');
         return;
@@ -62,9 +63,9 @@ export class HomeComponent implements OnInit {
 
   // aktualisiert User Serien Liste
 
-  refreshUserSerienList(): void {
+  getUserSerien(): void {
     this.serienService
-      .refreshUserSerien(this.authService.currentUserValue.id)
+      .getUserSerien(this.authService.currentUserValue.id)
       .subscribe((result) => {
         if (!result) {
           this.alertService.openAlert(
@@ -78,30 +79,33 @@ export class HomeComponent implements OnInit {
 
   // fügt Serie der User Serien DB hinzu
 
-  addSerieToUserList(serie: Serie): void {
-    this.serienService
-      .saveUserSerie(this.authService.currentUserValue, {
-        id: serie.id,
-        name: serie.name,
-        beschreibung: serie.beschreibung,
-        bildPfad: serie.bildPfad,
-        zgDatum: null,
-        zgFolge: 0,
-        zgStaffel: 0,
-      })
-      .subscribe(() => {
-        this.refreshUserSerienList();
-        return;
-      });
+  saveUserSerie(serie: Serie): void {
+    if (!this.userSerien.some((e) => e.id === serie.id)) {
+      this.serienService
+        .saveUserSerie(this.authService.currentUserValue.id, {
+          id: serie.id,
+          name: serie.name,
+          beschreibung: serie.beschreibung,
+          bildPfad: serie.bildPfad,
+          zgDatum: moment().format('DD.MM.YYYY'),
+          zgFolge: 1,
+          zgStaffel: 1,
+        })
+        .subscribe(() => {
+          this.getUserSerien();
+          return;
+        });
 
-    this.serienControl.setValue('');
+      this.serienControl.setValue('');
+    }
+    this.alertService.openAlert('Serie bereits vorhanden!');
   }
 
   deleteUserSerie(event: number): void {
     this.serienService
       .deleteUserSerie(this.authService.currentUserValue.id, event)
       .subscribe((result) => {
-        this.refreshUserSerienList();
+        this.getUserSerien();
       });
   }
 
