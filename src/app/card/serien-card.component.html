@@ -31,7 +31,9 @@
             <ng-container *ngIf="serieEditierbar">
               <div class="col-4 d-flex flex-column justify-content-between m-h-120">
                 <mat-form-field>
-                  <input matInput type="text" placeholder="zuletzt gesehen am" [formControl]="datumControl">
+                  <input matInput placeholder="zuletzt gesehen am" [matDatepicker]="dp" [formControl]="datumControl">
+                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                  <mat-datepicker #dp></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field>
                   <input matInput type="text" placeholder="zuletzt gesehene Folge" [formControl]="folgeControl">

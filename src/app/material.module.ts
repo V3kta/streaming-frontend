@@ -11,12 +11,33 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS,
+} from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_FORMATS,
+} from '@angular/material-moment-adapter';
+
+const CUSTOM_DATE_FORMAT = {
+  parse: {
+    dateInput: 'LL'
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [],
@@ -39,7 +60,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatMenuModule,
     MatTabsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   exports: [
     MatTableModule,
@@ -59,8 +80,16 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatMenuModule,
     MatTabsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
+  ],
 })
 export class MaterialModule {}

@@ -9,7 +9,8 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
 import { Settings } from 'src/app/model/Settings';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-serien-card',
@@ -63,16 +64,27 @@ export class SerienCardComponent implements OnInit {
 
   editSerieZgInfo(): void {
     this.serieEditierbar = true;
-    this.datumControl.setValue(this.serieData.zgDatum);
+    this.datumControl.setValue(moment(this.serieData.zgDatum, 'DD.MM.YYYY'));
     this.folgeControl.setValue(this.serieData.zgFolge);
     this.staffelControl.setValue(this.serieData.zgStaffel);
   }
 
   saveSerieZgInfo(save: boolean): void {
     if (save) {
-      this.serieData.zgDatum = this.datumControl.value;
+      this.serieData.zgDatum = moment(this.datumControl.value).format(
+        'DD.MM.YYYY'
+      );
       this.serieData.zgFolge = this.folgeControl.value;
       this.serieData.zgStaffel = this.staffelControl.value;
+
+      this.serienService
+        .saveUserSerie(this.authService.currentUserValue.id, this.serieData)
+        .subscribe(() => {
+          this.serienService.getUserSerien(
+            this.authService.currentUserValue.id
+          );
+          return;
+        });
     }
     this.serieEditierbar = false;
   }
