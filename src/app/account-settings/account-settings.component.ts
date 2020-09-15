@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/service/settings.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { User } from 'src/app/model/User';
 import { AlertService } from 'src/app/service/alert.service';
+import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_transform';
+import { invalid } from '@angular/compiler/src/render3/view/util';
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-account-settings',
@@ -42,9 +45,9 @@ export class AccountSettingsComponent implements OnInit {
     this.oldPasswordControl = new FormControl('');
     this.newPasswordControl = new FormControl('');
     this.newPasswordRepeatControl = new FormControl('');
-    this.newEmailControl = new FormControl('');
+    this.newEmailControl = new FormControl('' , [Validators.required]);
     this.newEmailRepeatControl = new FormControl('');
-    this.newUsernameControl = new FormControl('');
+    this.newUsernameControl = new FormControl('', [Validators.required]);
   }
 
   getCurrentUser(): User {
@@ -52,6 +55,7 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   saveUsername(save: boolean): void {
+    if (!this.newUsernameControl.invalid) {
     if (save) {
       this.authService
         .changeUsername(this.newUsernameControl.value)
@@ -64,6 +68,7 @@ export class AccountSettingsComponent implements OnInit {
           this.alertService.openAlert('Username geändert!');
           return;
         });
+      }
     }
 
     if (!save) {
@@ -72,6 +77,7 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   saveEmail(save: boolean): void {
+    if (!this.newEmailControl.invalid){
     if (save) {
       if (this.newEmailControl.value === this.newEmailRepeatControl.value) {
         this.authService
@@ -94,8 +100,12 @@ export class AccountSettingsComponent implements OnInit {
     }
     this.emailEditierbar = false;
   }
+  }
 
   savePassword(save: boolean): void {
+    if (
+      this.oldPasswordControl.value !== this.newPasswordControl.value
+      ) {
     if (save) {
       if (
         this.newPasswordControl.value === this.newPasswordRepeatControl.value
@@ -120,8 +130,11 @@ export class AccountSettingsComponent implements OnInit {
       this.alertService.openAlert('Passwortfelder stimmen nicht überein!');
       return;
     }
-    this.passwortEditierbar = false;
+    this.alertService.openAlert('Das Passwort darf nicht mit dem alten übereinstimen!');
+    return;
   }
+    this.passwortEditierbar = false;
+}
 
   navigateByUrl(url: string): void {
     this.router.navigateByUrl(url);
