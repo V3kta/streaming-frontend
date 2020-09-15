@@ -11,6 +11,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 })
 export class SettingsService {
   private settingsSubject: BehaviorSubject<Settings>;
+  private sortingSubject: BehaviorSubject<string>;
 
   constructor(
     private alertService: AlertService,
@@ -18,10 +19,22 @@ export class SettingsService {
     private authService: AuthenticationService
   ) {
     this.settingsSubject = new BehaviorSubject<Settings>(null);
+    this.sortingSubject = new BehaviorSubject<string>(null);
+
+    if (localStorage.getItem('sorting')) {
+      this.sortingSubject.next(localStorage.getItem('sorting'));
+    } else {
+      localStorage.setItem('sorting', 'nameasc');
+      this.sortingSubject.next('nameasc');
+    }
   }
 
   public get currentSettings(): Settings {
     return this.settingsSubject.value;
+  }
+
+  public get currentSorting(): string {
+    return this.sortingSubject.value;
   }
 
   public clearSettings(): void {
@@ -66,5 +79,10 @@ export class SettingsService {
     localStorage.setItem('settings', JSON.stringify(settings));
     this.settingsSubject.next(settings);
     this.saveSettings().subscribe();
+  }
+
+  public saveSorting(currentSorting: string): void {
+    localStorage.setItem('sorting', currentSorting);
+    this.sortingSubject.next(currentSorting);
   }
 }

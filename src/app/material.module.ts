@@ -19,6 +19,7 @@ import {
 } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -29,7 +30,7 @@ import {
 
 const CUSTOM_DATE_FORMAT = {
   parse: {
-    dateInput: 'LL'
+    dateInput: 'LL',
   },
   display: {
     dateInput: 'DD.MM.YYYY',
@@ -61,6 +62,7 @@ const CUSTOM_DATE_FORMAT = {
     MatMenuModule,
     MatTabsModule,
     MatButtonToggleModule,
+    MatSelectModule,
   ],
   exports: [
     MatTableModule,
@@ -81,6 +83,7 @@ const CUSTOM_DATE_FORMAT = {
     MatMenuModule,
     MatTabsModule,
     MatButtonToggleModule,
+    MatSelectModule,
   ],
   providers: [
     {
@@ -89,7 +92,7 @@ const CUSTOM_DATE_FORMAT = {
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
-    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
   ],
 })
 export class MaterialModule {}

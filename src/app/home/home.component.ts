@@ -6,7 +6,6 @@ import { User } from 'src/app/model/User';
 import { Serie } from 'src/app/model/Serie';
 import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { AlertService } from 'src/app/service/alert.service';
 import { SettingsService } from 'src/app/service/settings.service';
 import { CardViewMode } from 'src/app/model/Enums';
@@ -19,7 +18,6 @@ import * as moment from 'moment';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  faSearch = faSearch;
   serienControl = new FormControl();
   options: Serie[] = [];
   filteredOptions: Observable<Serie[]>;
@@ -128,9 +126,22 @@ export class HomeComponent implements OnInit {
     return 'LIST';
   }
 
+  getCurrentSorting(): string {
+    if (this.settingsService.currentSorting) {
+      return this.settingsService.currentSorting;
+    }
+    return 'default';
+  }
+
   saveCurrentViewMode(currentViewMode: string): void {
     this.settingsService.saveLocalSettings(
       new Settings(currentViewMode, 'default')
     );
+  }
+
+  setSortingMode(sortingMode: string): void {
+    console.log(sortingMode);
+    this.settingsService.saveSorting(sortingMode);
+    this.getUserSerien();
   }
 }
