@@ -77,7 +77,7 @@ export class SerienCardComponent implements OnInit {
 
       this.serienService
         .saveUserSerie(this.authService.currentUserValue.id, this.serieData)
-        .subscribe(this.refreshList.emit);
+        .subscribe(() => this.refreshList.emit);
     }
     this.serieEditierbar = false;
   }

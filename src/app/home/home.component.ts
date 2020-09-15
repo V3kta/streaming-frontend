@@ -130,7 +130,6 @@ export class HomeComponent implements OnInit {
     if (this.settingsService.currentSorting) {
       return this.settingsService.currentSorting;
     }
-    return 'default';
   }
 
   saveCurrentViewMode(currentViewMode: string): void {
@@ -140,7 +139,6 @@ export class HomeComponent implements OnInit {
   }
 
   setSortingMode(sortingMode: string): void {
-    console.log(sortingMode);
     this.settingsService.saveSorting(sortingMode);
     this.getUserSerien();
   }
