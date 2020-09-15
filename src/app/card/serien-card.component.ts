@@ -1,16 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
+import { CardViewMode } from 'src/app/model/Enums';
 import { Serie } from 'src/app/model/Serie';
 import { User } from 'src/app/model/User';
-import { SerienService } from 'src/app/service/serien.service';
-import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { SerienService } from 'src/app/service/serien.service';
 import { SettingsService } from 'src/app/service/settings.service';
-import { CardViewMode } from 'src/app/model/Enums';
-import { Settings } from 'src/app/model/Settings';
-import { FormControl, Validators } from '@angular/forms';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-serien-card',
@@ -27,6 +24,7 @@ export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
+  @Output() deleteUserSerie: EventEmitter<any> = new EventEmitter();
   cardViewMode = CardViewMode;
   sameViewerList: User[];
   serieEditierbar: boolean;
@@ -56,8 +54,8 @@ export class SerienCardComponent implements OnInit {
 
   // löscht Serie aus der Datenbank
 
-  deleteUserSerie(): void {
-    this.refreshList.emit(this.serieData.id);
+  delete(): void {
+    this.deleteUserSerie.emit(this.serieData.id);
   }
 
   // bearbeiten der Serie
@@ -79,12 +77,7 @@ export class SerienCardComponent implements OnInit {
 
       this.serienService
         .saveUserSerie(this.authService.currentUserValue.id, this.serieData)
-        .subscribe(() => {
-          this.serienService.getUserSerien(
-            this.authService.currentUserValue.id
-          );
-          return;
-        });
+        .subscribe(this.refreshList.emit);
     }
     this.serieEditierbar = false;
   }

@@ -1,11 +1,10 @@
 <div class="container-fluid d-flex align-items-center justify-content-between">
   <span class="d-flex align-items-center">
-    <fa-icon class="mr-2 font-20" [icon]="faSearch"></fa-icon>
+    <mat-icon>search</mat-icon>
     <mat-form-field>
       <input matInput type="search" placeholder="Seriensuche" [formControl]="serienControl" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option (click)="saveUserSerie(option)" *ngFor="let option of filteredOptions | async"
-          [value]="option">
+        <mat-option (click)="saveUserSerie(option)" *ngFor="let option of filteredOptions | async" [value]="option">
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
@@ -14,9 +13,32 @@
 
   <span class="d-flex align-items-center">
 
+    <span class="mr-2">
+
+      <mat-form-field>
+        <mat-select placeholder="Sortierung" (selectionChange)="setSortingMode($event.value)"
+          [value]="getCurrentSorting()">
+          <mat-option value="nameasc">
+            Name - Aufsteigend
+          </mat-option>
+          <mat-option value="namedesc">
+            Name - Absteigend
+          </mat-option>
+          <mat-option value="dateasc">
+            Datum - Aufsteigend
+          </mat-option>
+          <mat-option value="datedesc">
+            Datum - Absteigend
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </span>
+
     <span class="m-1">Serienansicht</span>
 
-    <mat-button-toggle-group (change)="saveCurrentViewMode($event.value)" name="cardViewModeSelection" class="m-1" [value]="getCurrentViewMode()">
+    <mat-button-toggle-group (change)="saveCurrentViewMode($event.value)" name="cardViewModeSelection" class="m-1"
+      [value]="getCurrentViewMode()">
       <mat-button-toggle mat-icon-button value="LIST">
         <mat-icon>view_list</mat-icon>
       </mat-button-toggle>
@@ -33,7 +55,7 @@
     <div class="row">
       <div class="col-12">
         <app-serien-card *ngFor="let serie of userSerien; let i = index;" [serieData]="serie"
-          (refreshList)="deleteUserSerie($event)">
+          (refreshList)="getUserSerien()" (deleteUserSerie)="deleteUserSerie($event)">
         </app-serien-card>
       </div>
     </div>
