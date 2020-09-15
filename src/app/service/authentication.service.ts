@@ -64,7 +64,7 @@ export class AuthenticationService {
   }
 
   changePassword(uOldPw: string, uNewPw: string): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/user/changePassword', {
+    return this.http.post<string>('http://localhost:8080/user/password', {
       id: this.currentUserValue.id,
       oldPassword: uOldPw,
       newPassword: uNewPw,
@@ -72,14 +72,14 @@ export class AuthenticationService {
   }
 
   changeEmail(uEmail: string): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/user/changeEmail', {
+    return this.http.post<string>('http://localhost:8080/user/email', {
       id: this.currentUserValue.id,
       email: uEmail,
     });
   }
 
   changeUsername(uName: string): Observable<string> {
-    return this.http.post<string>('http://localhost:8080/user/changeUsername', {
+    return this.http.post<string>('http://localhost:8080/user/username', {
       id: this.currentUserValue.id,
       username: uName,
     });

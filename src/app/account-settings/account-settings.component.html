@@ -23,8 +23,8 @@
             <ng-container *ngIf="usernameEditierbar">
                 <div class="d-inline-flex flex-column">
                     <mat-form-field>
-                        <input matInput type="text" pattern="\w{3,} {0,1}\w{0,}" placeholder="Neuer Benutzername" [formControl]="newUsernameControl" required>
-                        <mat-error *ngIf="newUsernameControl.invalid"> Der Benutzername darf keine Sondezeichen enthalten</mat-error>
+                        <input matInput type="text" placeholder="Neuer Benutzername" [formControl]="newUsernameControl">
+                        <mat-error *ngIf="newUsernameControl.invalid">Mindestens 3 Zeichen und keine Sonderzeichen</mat-error>
                     </mat-form-field>
                     <span class="d-inline-flex">
                         <button class="m-2" mat-raised-button (click)="saveUsername(true)">Speichern</button>
@@ -41,12 +41,13 @@
             <ng-container *ngIf="emailEditierbar">
                 <div class="d-inline-flex flex-column">
                     <mat-form-field>
-                        <input matInput type="email" placeholder="Neue Email" pattern=".+@web.de" [formControl]="newEmailControl">
-                        <mat-error *ngIf="newEmailControl.invalid"> Keine korrekte Email</mat-error>
+                        <input matInput type="text" placeholder="Neue Email" [formControl]="newEmailControl">
+                        <mat-error *ngIf="newEmailControl.invalid">Keine korrekte Email</mat-error>
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput type="email" placeholder="Neue Email wiederholen"
+                        <input matInput type="text" placeholder="Neue Email wiederholen"
                             [formControl]="newEmailRepeatControl">
+                        <mat-error *ngIf="newEmailControl.value !== newEmailRepeatControl.value">Emailadressen stimmen nicht überein!</mat-error>
                     </mat-form-field>
                     <span class="d-inline-flex">
                         <button class="m-2"mat-raised-button (click)="saveEmail(true)">Speichern</button>
