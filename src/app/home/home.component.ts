@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
-import { User } from 'src/app/model/User';
+import { map, startWith } from 'rxjs/operators';
+import { CardViewMode } from 'src/app/model/Enums';
 import { Serie } from 'src/app/model/Serie';
+import { Settings } from 'src/app/model/Settings';
+import { User } from 'src/app/model/User';
 import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AlertService } from 'src/app/service/alert.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+import { SerienService } from 'src/app/service/serien.service';
 import { SettingsService } from 'src/app/service/settings.service';
-import { CardViewMode } from 'src/app/model/Enums';
-import { Settings } from 'src/app/model/Settings';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',

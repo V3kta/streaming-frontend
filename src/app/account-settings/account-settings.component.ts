@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/service/settings.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { User } from 'src/app/model/User';
 import { AlertService } from 'src/app/service/alert.service';
+import { StatusCodes } from 'http-status-codes';
 
 @Component({
   selector: 'app-account-settings',
@@ -42,9 +43,15 @@ export class AccountSettingsComponent implements OnInit {
     this.oldPasswordControl = new FormControl('');
     this.newPasswordControl = new FormControl('');
     this.newPasswordRepeatControl = new FormControl('');
-    this.newEmailControl = new FormControl('');
+    this.newEmailControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('\\w{1,}(\\.|_){0,1}\\w{1,}@\\w{1,}\\.\\w{1,}'),
+    ]);
     this.newEmailRepeatControl = new FormControl('');
-    this.newUsernameControl = new FormControl('');
+    this.newUsernameControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern('\\w{3,} {0,1}\\w{0,}'),
+    ]);
   }
 
   getCurrentUser(): User {
@@ -53,17 +60,19 @@ export class AccountSettingsComponent implements OnInit {
 
   saveUsername(save: boolean): void {
     if (save) {
-      this.authService
-        .changeUsername(this.newUsernameControl.value)
-        .subscribe((result) => {
-          if (result === 'NOT_ACCEPTABLE') {
-            this.alertService.openAlert('Username bereits vorhanden!');
+      if (!this.newUsernameControl.invalid) {
+        this.authService
+          .changeUsername(this.newUsernameControl.value)
+          .subscribe((status) => {
+            if (status === StatusCodes.NOT_ACCEPTABLE.toString()) {
+              this.alertService.openAlert('Username bereits vorhanden!');
+              return;
+            }
+            this.usernameEditierbar = false;
+            this.alertService.openAlert('Username geändert!');
             return;
-          }
-          this.usernameEditierbar = false;
-          this.alertService.openAlert('Username geändert!');
-          return;
-        });
+          });
+      }
     }
 
     if (!save) {
@@ -76,48 +85,55 @@ export class AccountSettingsComponent implements OnInit {
       if (this.newEmailControl.value === this.newEmailRepeatControl.value) {
         this.authService
           .changeEmail(this.newEmailControl.value)
-          .subscribe((result) => {
-            if (result === 'NOT_ACCEPTABLE') {
-              this.alertService.openAlert('Email bereits vorhanden!');
+          .subscribe((status) => {
+            if (status === StatusCodes.NOT_ACCEPTABLE.toString()) {
+              this.alertService.openAlert(
+                'Email darf nicht mit alter Email übereinstimmen!'
+              );
               return;
             }
-
-            this.alertService.openAlert('Email geändert!');
             this.emailEditierbar = false;
+            this.alertService.openAlert('Email erfolgreich geändert!');
             return;
           });
-
-        return;
       }
       this.alertService.openAlert('Emailfelder stimmen nicht überein!');
       return;
     }
-    this.emailEditierbar = false;
+
+    if (!save) {
+      this.emailEditierbar = false;
+    }
   }
 
   savePassword(save: boolean): void {
     if (save) {
-      if (
-        this.newPasswordControl.value === this.newPasswordRepeatControl.value
-      ) {
-        this.authService
-          .changePassword(
-            this.oldPasswordControl.value,
-            this.newPasswordControl.value
-          )
-          .subscribe((result) => {
-            if (result === 'NOT_ACCEPTABLE') {
-              this.alertService.openAlert('Altes Passwort ungültig!');
+      if (this.oldPasswordControl.value !== this.newPasswordControl.value) {
+        if (
+          this.newPasswordControl.value === this.newPasswordRepeatControl.value
+        ) {
+          this.authService
+            .changePassword(
+              this.oldPasswordControl.value,
+              this.newPasswordControl.value
+            )
+            .subscribe((result) => {
+              if (result === 'NOT_ACCEPTABLE') {
+                this.alertService.openAlert('Altes Passwort ungültig!');
+                return;
+              }
+              this.alertService.openAlert('Passwort geändert!');
+              this.passwortEditierbar = false;
               return;
-            }
-            this.alertService.openAlert('Passwort geändert!');
-            this.passwortEditierbar = false;
-            return;
-          });
-
+            });
+          return;
+        }
+        this.alertService.openAlert('Passwortfelder stimmen nicht überein!');
         return;
       }
-      this.alertService.openAlert('Passwortfelder stimmen nicht überein!');
+      this.alertService.openAlert(
+        'Das Passwort darf nicht mit dem Alten übereinstimmen!'
+      );
       return;
     }
     this.passwortEditierbar = false;
