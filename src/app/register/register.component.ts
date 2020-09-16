@@ -3,6 +3,8 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/service/alert.service';
+import { CrossFieldErrorMatcher } from 'src/app/model/CrossFieldErrorMatcher';
+import { StatusCodes } from 'http-status-codes';
 
 @Component({
   selector: 'app-register',
@@ -15,8 +17,8 @@ export class RegisterComponent implements OnInit {
   // passwordControl: FormControl;
   // vornameControl: FormControl;
   // nachnameControl: FormControl;
-  registerForm: any;
-
+  registerForm: FormGroup;
+  passErrorMatcher: CrossFieldErrorMatcher;
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -34,18 +36,53 @@ export class RegisterComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group(
       {
-        email: ['', Validators.required],
-        username: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('\\w{1,}(\\.|_){0,1}\\w{1,}@\\w{1,}\\.\\w{1,}'),
+          ],
+        ],
+        username: [
+          '',
+          [Validators.required, Validators.pattern('\\w{3,} {0,1}\\w{0,}')],
+        ],
         password: ['', Validators.required],
-        verifyPassword: ['', Validators.required],
+        verifyPassword: '',
         vorname: ['', Validators.required],
         nachname: ['', Validators.required],
       },
-      { validator: this.passwordValidator }
+      { validator: this.comparePasswords }
     );
+
+    this.passErrorMatcher = new CrossFieldErrorMatcher();
   }
 
-  register(): void {}
+  register(): void {
+    if (!this.registerForm.invalid) {
+      this.authService
+        .registerUser(
+          this.registerForm.get('email').value,
+          this.registerForm.get('username').value,
+          this.registerForm.get('password').value,
+          this.registerForm.get('vorname').value,
+          this.registerForm.get('nachname').value
+        )
+        .subscribe((status) => {
+          if (status === 'CONFLICT') {
+            console.log(status);
+            this.alertService.openAlert('Username exisiert bereits!');
+            return;
+          }
+          this.alertService.openAlert('Erfolgreich registriert!');
+          this.router.navigateByUrl('login');
+        });
+    }
+    if (this.registerForm.invalid) {
+      this.alertService.openAlert('Formular nicht korrekt ausgefüllt!');
+      return;
+    }
+  }
 
   // register(): void {
   //   if (
@@ -77,10 +114,11 @@ export class RegisterComponent implements OnInit {
   //   }
   // }
 
-  passwordValidator(form: FormGroup): any {
-    const condition =
-      form.get('password').value !== form.get('verifyPassword').value;
+  comparePasswords(group: FormGroup): any {
+    // here we have the 'passwords' group
+    const pass = group.get('password').value;
+    const verifyPass = group.get('verifyPassword').value;
 
-    return condition ? { passwordsDoNotMatch: true } : null;
+    return pass === verifyPass ? null : { notSame: true };
   }
 }

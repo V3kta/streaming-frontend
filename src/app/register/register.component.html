@@ -2,22 +2,45 @@
     <form [formGroup]="registerForm">
         <div class="m-auto d-inline-flex flex-column">
             <mat-form-field>
-                <input matInput placeholder="Email-Adresse" formControlName="email">
+                <input matInput required placeholder="E-Mail-Adresse" formControlName="email">
+                <mat-error *ngIf="registerForm.hasError('required', 'email')">
+                    Bitte das Feld füllen
+                </mat-error>
+                <mat-error *ngIf="registerForm.hasError('pattern', 'email')">
+                    Inkorrekte E-Mail-Adresse
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Benutzername" formControlName="username">
+                <input matInput required placeholder="Benutzername" formControlName="username">
+                <mat-error *ngIf="registerForm.hasError('required', 'username')">
+                    Bitte das Feld füllen
+                </mat-error>
+                <mat-error *ngIf="registerForm.hasError('pattern', 'username')">
+                    Mindestens 3 Buchstaben, keine Sonderzeichen
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput type="password" placeholder="Passwort" formControlName="password">
+                <input matInput required placeholder="Vorname" formControlName="vorname">
+                <mat-error *ngIf="registerForm.hasError('required', 'vorname')">
+                    Bitte das Feld füllen
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput type="password" placeholder="Passwort wiederholen" formControlName="verifyPassword">
+                <input matInput required placeholder="Nachname" formControlName="nachname">
+                <mat-error *ngIf="registerForm.hasError('required', 'nachname')">
+                    Bitte das Feld füllen
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Vorname" formControlName="vorname">
+                <input matInput required type="password" placeholder="Passwort" formControlName="password">
+                <mat-error *ngIf="registerForm.hasError('required', 'password')">
+                    Bitte geben sie ihr Password ein
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Nachname" formControlName="nachname">
+                <input matInput required type="password" placeholder="Passwort wiederholen"
+                    formControlName="verifyPassword" [errorStateMatcher]="passErrorMatcher">
+                <mat-error *ngIf="registerForm.hasError('notSame')">Passwörter nicht gleich</mat-error>
             </mat-form-field>
             <button type="submit" mat-raised-button color="primary" (click)="register()">Abschicken</button>
         </div>
