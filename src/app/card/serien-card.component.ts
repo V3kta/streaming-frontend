@@ -24,6 +24,7 @@ export class SerienCardComponent implements OnInit {
 
   @Input() serieData: Serie;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
+  @Output() deleteUserSerie: EventEmitter<any> = new EventEmitter();
   cardViewMode = CardViewMode;
   sameViewerList: User[];
   serieEditierbar: boolean;
@@ -53,8 +54,8 @@ export class SerienCardComponent implements OnInit {
 
   // löscht Serie aus der Datenbank
 
-  deleteUserSerie(): void {
-    this.refreshList.emit(this.serieData.id);
+  delete(): void {
+    this.deleteUserSerie.emit(this.serieData.id);
   }
 
   // bearbeiten der Serie
@@ -76,12 +77,7 @@ export class SerienCardComponent implements OnInit {
 
       this.serienService
         .saveUserSerie(this.authService.currentUserValue.id, this.serieData)
-        .subscribe(() => {
-          this.serienService.getUserSerien(
-            this.authService.currentUserValue.id
-          );
-          return;
-        });
+        .subscribe(() => this.refreshList.emit);
     }
     this.serieEditierbar = false;
   }

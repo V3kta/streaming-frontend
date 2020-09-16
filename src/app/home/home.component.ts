@@ -7,6 +7,8 @@ import { CardViewMode } from 'src/app/model/Enums';
 import { Serie } from 'src/app/model/Serie';
 import { Settings } from 'src/app/model/Settings';
 import { User } from 'src/app/model/User';
+import { SerienService } from 'src/app/service/serien.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SerienService } from 'src/app/service/serien.service';
@@ -126,9 +128,20 @@ export class HomeComponent implements OnInit {
     return 'LIST';
   }
 
+  getCurrentSorting(): string {
+    if (this.settingsService.currentSorting) {
+      return this.settingsService.currentSorting;
+    }
+  }
+
   saveCurrentViewMode(currentViewMode: string): void {
     this.settingsService.saveLocalSettings(
       new Settings(currentViewMode, 'default')
     );
+  }
+
+  setSortingMode(sortingMode: string): void {
+    this.settingsService.saveSorting(sortingMode);
+    this.getUserSerien();
   }
 }
