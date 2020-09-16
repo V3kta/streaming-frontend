@@ -10,8 +10,6 @@ import { User } from 'src/app/model/User';
 import { SerienService } from 'src/app/service/serien.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AlertService } from 'src/app/service/alert.service';
-import { AuthenticationService } from 'src/app/service/authentication.service';
-import { SerienService } from 'src/app/service/serien.service';
 import { SettingsService } from 'src/app/service/settings.service';
 
 @Component({
