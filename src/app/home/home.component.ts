@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
         });
 
       this.serienControl.setValue('');
+      return;
     }
     this.serienControl.setValue('');
     this.alertService.openAlert('Serie bereits vorhanden!');
