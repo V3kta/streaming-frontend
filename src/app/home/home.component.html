@@ -4,7 +4,7 @@
     <mat-form-field>
       <input matInput type="search" placeholder="Seriensuche" [formControl]="serienControl" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option (click)="saveUserSerie(option)" *ngFor="let option of filteredOptions | async" [value]="option">
+        <mat-option (onSelectionChange)="saveUserSerie(option)" *ngFor="let option of filteredOptions | async" [value]="option">
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
